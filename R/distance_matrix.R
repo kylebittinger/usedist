@@ -117,6 +117,42 @@ dist_groups <- function(d, g) {
     Distance = dist_get(d, idx1, idx2))
 }
 
-# dist_make - compute distances using any pairwise distance function
+#' Make a distance matrix using a custom distance function
+#'
+#' @param x A matrix of observations, one per row
+#' @param distance_fcn A function of two arguments, used to compute the
+#'   distance between two rows of the data matrix.
+#' @param method Name for the distance method.  If provided, will be stored in
+#'   the `"method"` attribute of the result.
+#' @return A `"dist"` object containing the distances between rows of the data
+#'   matrix.
+#' @export
+#' @examples
+#' x <- matrix(sin(1:30), nrow=5)
+#' rownames(x) <- LETTERS[1:5]
+#' manhattan_distance <- function (v1, v2) sum(abs(v1 - v2))
+#' dist_make(x, manhattan_distance, "Manhattan (custom)")
+dist_make <- function (x, distance_fcn, method=NULL) {
+  distance_from_idxs <- function (idxs) {
+    i1 <- idxs[1]
+    i2 <- idxs[2]
+    distance_fcn(x[i1,], x[i2,])
+  }
+  size <- nrow(x)
+  d <- apply(combn(size, 2), 2, distance_from_idxs)
+  attr(d, "Size") <- size
+  xnames <- rownames(x)
+  if (!is.null(xnames)) {
+    attr(d, "Labels") <- xnames
+  }
+  attr(d, "Diag") <- FALSE
+  attr(d, "Upper") <- FALSE
+  if (!is.null(method)) {
+    attr(d, "method") <- method
+  }
+  class(d) <- "dist"
+  d
+}
+
 # dist_to_centroid - compute distances to group centroids
 

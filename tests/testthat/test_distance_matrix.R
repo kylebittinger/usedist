@@ -48,3 +48,16 @@ test_that("dist_groups labels groups correctly", {
   dg <- dist_groups(dm, c("A", "B", "A", "B"))
   expect_equal(levels(dg$Label), c("Between A and B", "Within A", "Within B"))
 })
+
+context("dist_make")
+
+test_that("dist_make computes custom distances", {
+  x <- matrix(sin(1:30), nrow=5)
+  expected_dm <- dist(x, method="manhattan")
+  # We don't set the call attribute, so remove this from the expected result
+  attr(expected_dm, "call") <- NULL
+
+  manhattan_distance <- function (v1, v2) sum(abs(v1 - v2))
+  observed_dm <- dist_make(x, manhattan_distance, "manhattan")
+  expect_equal(observed_dm, expected_dm)
+})
