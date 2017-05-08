@@ -22,7 +22,8 @@ A data frame with 6 columns. "Item1" and "Item2" identify the
 Create a data frame of distances between groups of items.
 }
 \examples{
-data(relmbeta_dist)
-data(relmbeta)
-head(dist_groups(relmbeta_dist, relmbeta$Diet))
+m4 <- matrix(1:16, nrow=4, dimnames=list(LETTERS[1:4]))
+dm4 <- dist(m4)
+g4 <- rep(c("Control", "Treatment"), each=2)
+dist_groups(dm4, g4)
 }

@@ -1,7 +1,5 @@
 #' Set the names/labels of a `"dist"` object.
 #'
-#'
-#'
 #' @param d A distance matrix object of class `"dist"`.
 #' @param nm New labels for the rows/columns.
 #' @export
@@ -10,11 +8,10 @@
 #' dm4 <- dist(m4)
 #' dist_setNames(dm4, LETTERS[9:12])
 dist_setNames <- function (d, nm) {
-  # Convert to matrix so errors appear on assignment
+  # Convert to matrix so errors are generated on assignment
   # if nm does not contain the same number of elements as d
   dm <- as.matrix(d)
-  colnames(dm) <- nm
-  rownames(dm) <- nm
+  dimnames(dm) <- list(nm, nm)
   as.dist(dm)
 }
 
@@ -84,9 +81,10 @@ dist_subset <- function (d, idx) {
 #'   the distance of interest.
 #' @export
 #' @examples
-#' data(relmbeta_dist)
-#' data(relmbeta)
-#' head(dist_groups(relmbeta_dist, relmbeta$Diet))
+#' m4 <- matrix(1:16, nrow=4, dimnames=list(LETTERS[1:4]))
+#' dm4 <- dist(m4)
+#' g4 <- rep(c("Control", "Treatment"), each=2)
+#' dist_groups(dm4, g4)
 dist_groups <- function(d, g) {
   d <- as.dist(d)
   g <- as.factor(g)
@@ -119,6 +117,6 @@ dist_groups <- function(d, g) {
     Distance = dist_get(d, idx1, idx2))
 }
 
-# dist_make
-# dist_to_centroid
+# dist_make - compute distances using any pairwise distance function
+# dist_to_centroid - compute distances to group centroids
 

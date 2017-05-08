@@ -6,6 +6,16 @@ dm <- matrix(
     3, 5, 6, 0),
   ncol=4,
   dimnames=list(dm_names, dm_names))
+dm <- as.dist(dm)
+
+context('dist_setNames')
+
+test_that('dist_setNames can set the labels', {
+  EFGH <- LETTERS[5:8]
+  renamed_dm <- dist_setNames(dm, EFGH)
+  expect_equal(attr(renamed_dm, "Labels"), EFGH)
+  expect_equal(class(renamed_dm), "dist")
+})
 
 context('dist_get')
 
