@@ -4,6 +4,12 @@ output: github_document
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
+```{r echo=FALSE, message=FALSE}
+library(devtools)
+load_all()
+```
+
+
 # usedist
 
 This package provides useful functions for distance matrix objects in R.
@@ -30,19 +36,24 @@ d <- dist(vals)
 d
 ```
 
-The `usedist` package allows us to select the distances only for rows B, A, F, and
+The `usedist` package allows us to select the distances for rows B, C, F, and
 D, *in that order*:
 
-```{r}
+```{r eval=FALSE}
 library(usedist)
-dist_subset(d, c("B", "A", "F", "D"))
+```
+
+
+```{r}
+dist_subset(d, c("B", "C", "F", "D"))
 ```
 
 This is helpful when arranging a distance matrix to match a data frame, for 
 instance with the `adonis` function in `vegan`.
 
 We can extract distances between specified pairs of items, for example distances
-between rows A-to-C and B-to-E:
+between rows A-to-C and B-to-E. To do this, we provide two vectors of items: one
+for the item of origin, and another for the destination.
 
 ```{r}
 origin_row <- c("A", "B")
@@ -82,7 +93,7 @@ pts <- data.frame(
   x = c(-1, 0, 0, 1, 2, 3, 3, 4),
   y = c(0, 1, -1, 0, 0, 1, -1, 0),
   Item = LETTERS[1:8],
-  Group = paste("Group", rep(1:2, each=4)))
+  Group = rep(c("Control", "Treatment"), each=4))
 
 library(ggplot2)
 ggplot(pts, aes(x=x, y=y)) +
@@ -94,7 +105,9 @@ Now for the trick: we'll take the distances between points, then figure out the
 distances to the group centroids using only the point-to-point distances.
 
 ```{r}
-pts_distances <- dist(pts[,1:2])
+pts_data <- pts[,1:2]
+rownames(pts_data) <- pts$Item
+pts_distances <- dist(pts_data)
 pts_distances
 ```
 
@@ -103,16 +116,17 @@ between the centroids of the two groups.  In our example, we expect to get a
 distance of 3.
 
 ```{r}
-dist_between_centroids(pts_distances, 1:4, 5:8)
+dist_between_centroids(
+  pts_distances, c("A", "B", "C", "D"), c("E", "F", "G", "H"))
 ```
 
 Now, we use the function `dist_to_centroids` to calculate the distance from each
 individual point to the group centroids.  The within-group distances should all
-be equal to 1.  Checking the between-group distances is left as an exercise for
-the reader.
+be equal to 1.
 
 ```{r}
 dist_to_centroids(pts_distances, pts$Group)
 ```
 
-
+Double-checking the between-group distances is left as an exercise for the
+reader.

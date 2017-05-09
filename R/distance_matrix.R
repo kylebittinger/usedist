@@ -184,7 +184,7 @@ dist_make <- function (x, distance_fcn, method=NULL) {
 #'   \item{Item}{
 #'     A character vector of item labels from the dist object, or an integer
 #'     vector of item locations if labels are not present.}
-#'   \item{Group}{
+#'   \item{CentroidGroup}{
 #'     The group for which the centroid distance is given. The column type
 #'     should match that of the argument g (the \code{unique} function is used
 #'     to generate this column).}
@@ -203,7 +203,7 @@ dist_to_centroids <- function (d, g) {
   group_sizes <- lapply(group_items, length)
   group_d2s <- lapply(group_items, function (x) dist_subset(d2, x))
   within_group_sums <- lapply(group_d2s, sum)
-  df <- expand.grid(Item=items, Group=unique(g), stringsAsFactors = F)
+  df <- expand.grid(Item=items, CentroidGroup=unique(g), stringsAsFactors = F)
   dist_to_group_centroid <- function (idx2, group) {
     idx1 <- group_items[[group]]
     n1 <- group_sizes[[group]]
@@ -213,7 +213,8 @@ dist_to_centroids <- function (d, g) {
     term12 <- sum12 / n1
     sqrt(term12 - term1)
   }
-  df$CentroidDistance <- mapply(dist_to_group_centroid, df$Item, df$Group)
+  df$CentroidDistance <- mapply(
+    dist_to_group_centroid, df$Item, df$CentroidGroup)
   df
 }
 
