@@ -1,21 +1,15 @@
 #' usedist: a package for working with distance matrices in R
 #'
 #' In usedist, we provide a number of functions to help with distance matrix
-#' objects, such as those produced by the `dist` function.
-#'
-#' @section Utility functions
-#' The functions \code{link{dist_setNames}}, \code{\link{dist_get}},
-#' \code{\link{dist_subset}}, and \code{\link{dist_make}} provide utilities for
-#' making or altering distance matrix objects.
-#'
-#' @section Group/centroid functions
-#' The functions \code{\link{dist_groups}}, \code{link{dist_between_centroids}},
-#' and \code{\link{dist_to_centroids}} are concerned with groups of items in the
-#' distance matrix. They provide access to within- or between-group distances,
-#' or use these distances to infer the distance to group centroids.
+#' objects, such as those produced by the `dist` function.  Some functions are
+#' geared towards making or altering distance matrix objects.  Others relate to
+#' groups of items in the distance matrix. They provide access to within- or
+#' between-group distances, or use these distances to infer the distance to
+#' group centroids.
 #'
 #' @docType package
 #' @name usedist
+NULL
 
 #' Set the names/labels of a `"dist"` object.
 #'
