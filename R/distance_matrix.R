@@ -1,3 +1,22 @@
+#' usedist: a package for working with distance matrices in R
+#'
+#' In usedist, we provide a number of functions to help with distance matrix
+#' objects, such as those produced by the `dist` function.
+#'
+#' @section Utility functions
+#' The functions \code{link{dist_setNames}}, \code{\link{dist_get}},
+#' \code{\link{dist_subset}}, and \code{\link{dist_make}} provide utilities for
+#' making or altering distance matrix objects.
+#'
+#' @section Group/centroid functions
+#' The functions \code{\link{dist_groups}}, \code{link{dist_between_centroids}},
+#' and \code{\link{dist_to_centroids}} are concerned with groups of items in the
+#' distance matrix. They provide access to within- or between-group distances,
+#' or use these distances to infer the distance to group centroids.
+#'
+#' @docType package
+#' @name usedist
+
 #' Set the names/labels of a `"dist"` object.
 #'
 #' @param d A distance matrix object of class `"dist"`.
@@ -154,5 +173,101 @@ dist_make <- function (x, distance_fcn, method=NULL) {
   d
 }
 
-# dist_to_centroid - compute distances to group centroids
+#' Compute distances from each item to group centroids
+#'
+#' @param d A distance matrix object of class `"dist"`.
+#' @param g A factor representing the groups of items in `d`.
+#' @return A data frame with distances to the group centroids (see details).
+#'
+#' This function computes the distance from each item to the centroid positions
+#' of groups defined in the argument `g`.  This is accomplished without
+#' determining the centroid positions directly; see the documentation for
+#' \code{\link{dist_between_centroids}} for details on this procedure.
+#'
+#' The result is a data frame with three columns:
+#'
+#' \describe{
+#'   \item{Item}{
+#'     A character vector of item labels from the dist object, or an integer
+#'     vector of item locations if labels are not present.}
+#'   \item{Group}{
+#'     The group for which the centroid distance is given. The column type
+#'     should match that of the argument g (the \code{unique} function is used
+#'     to generate this column).}
+#'   \item{CentroidDistance}{
+#'     Inferred distance from the item to the centroid position of the
+#'     indicated group.}}
+#'
+#' @export
+dist_to_centroids <- function (d, g) {
+  d <- as.dist(d)
+  d2 <- d ** 2
+  items <- attr(d, "Labels")
+  # Use numeric index for items if the distance matrix has no labels
+  items <- if (is.null(items)) 1:attr(d, "Size") else items
+  group_items <- tapply(items, g, c)
+  group_sizes <- lapply(group_items, length)
+  group_d2s <- lapply(group_items, function (x) dist_subset(d2, x))
+  within_group_sums <- lapply(group_d2s, sum)
+  df <- expand.grid(Item=items, Group=unique(g), stringsAsFactors = F)
+  dist_to_group_centroid <- function (idx2, group) {
+    idx1 <- group_items[[group]]
+    n1 <- group_sizes[[group]]
+    sum1 <- within_group_sums[[group]]
+    sum12 <- sum(as.matrix(d2)[idx1, idx2])
+    term1 <- sum1 / (n1 ** 2)
+    term12 <- sum12 / n1
+    sqrt(term12 - term1)
+  }
+  df$CentroidDistance <- mapply(dist_to_group_centroid, df$Item, df$Group)
+  df
+}
 
+#' Compute the distance between group centroids
+#'
+#' @param d A distance matrix object of class `"dist"`.
+#' @param idx1 A vector of items in group 1
+#' @param idx2 A vector of items in group 2
+#' @return The distance between group centroids (see details).
+#'
+#' It is possible to infer the distance between group centroids directly from
+#' the distances between items in each group.  The `adonis` test in the ecology
+#' package `vegan` takes advantage of this approach to carry out an ANOVA-like
+#' test on distances.
+#'
+#' The approach rests on the assumption that the items in the distance matrix
+#' occupy some high-dimensional Euclidean space.  However, we do not have to
+#' actually create the space to find the distance between centroids.  Using the
+#' assumption that such a space exists, we can use an algebraic formula to find
+#' the centroid distance.
+#'
+#' The formulas for this were presented by Apostol and Mnatsakanian in 2003,
+#' though we need to re-arrange equation 28 to get the value we want:
+#'
+#' \deqn{\lvert c_1 - c_2 \rvert = \sqrt{
+#'    \frac{1}{n_1 n_2} \sum_{(1,2)} -
+#'    \frac{1}{n_1^2} \sum_{(1)} -
+#'    \frac{1}{n_2^2} \sum_{(2)}},}
+#'
+#' where \eqn{n_1} is the number of samples in group 1, \eqn{\sum_{(1)}} is the
+#' sum of squared distances between items in group 1, and \eqn{\sum_{(1,2)}} is
+#' the sum of squared distances between items in group 1 and those in group 2.
+#'
+#' @references Apostol, T.M. and Mnatsakanian, M.A. Sums of squares of distances
+#'   in m-space. Math. Assoc. Am. Monthly 110, 516 (2003).
+#'
+#' @export
+dist_between_centroids <- function (d, idx1, idx2) {
+  d2 <- d ** 2
+  # Should this function supprot boolean indexing? Check to see if dist_subset
+  # supports booleans.
+  n1 <- length(idx1)
+  n2 <- length(idx2)
+  sum1 <- sum(dist_subset(d2, idx1))
+  sum2 <- sum(dist_subset(d2, idx2))
+  sum12 <- sum(as.matrix(d2)[idx1, idx2])
+  term1 <- sum1 / (n1 ** 2)
+  term2 <- sum2 / (n2 ** 2)
+  term12 <- sum12 / (n1 * n2)
+  sqrt(term12 - term1 - term2)
+}

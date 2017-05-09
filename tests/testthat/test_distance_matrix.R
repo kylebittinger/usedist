@@ -61,3 +61,35 @@ test_that("dist_make computes custom distances", {
   observed_dm <- dist_make(x, manhattan_distance, "manhattan")
   expect_equal(observed_dm, expected_dm)
 })
+
+pts <- matrix(c(
+  -1,  0,
+   0,  1,
+   0, -1,
+   1,  0,
+   2,  0,
+   3,  1,
+   3, -1,
+   4,  0), ncol = 2, byrow = TRUE)
+rownames(pts) <- LETTERS[1:8]
+pts_d <- dist(pts)
+pts_g <- rep(paste("Group", 1:2), each=4)
+
+context("dist_between_centroids")
+
+test_that("dist_between_centroids works on 2D Euclidean example", {
+  expect_equal(dist_between_centroids(d, 1:4, 5:8), 3.0)
+})
+
+context("dist_to_centroids")
+
+test_that("dist_to_centroids works on 2D Euclidean example", {
+  expected_df <- expand.grid(
+    Item = LETTERS[1:8],
+    Group = paste("Group", 1:2),
+    stringsAsFactors=FALSE)
+  expected_df$CentroidDistance = c(
+      1, 1, 1, 1, 2, sqrt(10), sqrt(10), 4,
+      4, sqrt(10), sqrt(10), 2, 1, 1, 1, 1)
+  expect_equal(dist_to_centroids(pts_d, pts_g), expected_df)
+})
