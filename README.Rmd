@@ -7,6 +7,7 @@ output: github_document
 ```{r echo=FALSE, message=FALSE}
 library(devtools)
 load_all()
+set.seed(0)
 ```
 
 

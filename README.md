@@ -26,13 +26,13 @@ rownames(vals) <- c("A", "B", "C", "D", "E", "F")
 vals
 ```
 
-    ##         [,1]       [,2]        [,3]       [,4]       [,5]
-    ## A  0.5244946  1.5128781 -1.21602889 -1.0436840 -0.3957575
-    ## B -0.8356313 -0.9271118 -0.01845765  0.1583214 -0.1283055
-    ## C  0.8635594  0.5730635 -0.27285275 -2.4057078 -0.3737200
-    ## D -0.7854537  0.5654362  0.05767699  0.2072611  0.5684050
-    ## E -1.6309083 -1.3014575 -0.18939698  0.5354129  0.3820710
-    ## F  0.3673909 -1.0765648  1.49786007 -0.7767631  0.4379558
+    ##         [,1]         [,2]       [,3]       [,4]        [,5]
+    ## A  1.2629543 -0.928567035 -1.1476570  0.4356833 -0.05710677
+    ## B -0.3262334 -0.294720447 -0.2894616 -1.2375384  0.50360797
+    ## C  1.3297993 -0.005767173 -0.2992151 -0.2242679  1.08576936
+    ## D  1.2724293  2.404653389 -0.4115108  0.3773956 -0.69095384
+    ## E  0.4146414  0.763593461  0.2522234  0.1333364 -1.28459935
+    ## F -1.5399500 -0.799009249 -0.8919211  0.8041895  0.04672617
 
 ``` r
 d <- dist(vals)
@@ -40,11 +40,11 @@ d
 ```
 
     ##          A        B        C        D        E
-    ## B 3.279332                                    
-    ## C 1.934785 3.440489                           
-    ## D 2.594303 1.650398 3.247115                  
-    ## E 4.088861 1.097498 4.354833 2.098460         
-    ## F 3.855051 2.227971 3.068413 2.661704 2.935224
+    ## B 2.603430                                    
+    ## C 1.821423 2.047355                           
+    ## D 3.472394 3.727228 3.056922                  
+    ## E 2.672239 2.653173 2.734967 2.069155         
+    ## F 2.843420 2.543180 3.369470 4.373791 3.129488
 
 The `usedist` package allows us to select the distances for rows B, C, F, and D, *in that order*:
 
@@ -57,9 +57,9 @@ dist_subset(d, c("B", "C", "F", "D"))
 ```
 
     ##          B        C        F
-    ## C 3.440489                  
-    ## F 2.227971 3.068413         
-    ## D 1.650398 3.247115 2.661704
+    ## C 2.047355                  
+    ## F 2.543180 3.369470         
+    ## D 3.727228 3.056922 4.373791
 
 This is helpful when arranging a distance matrix to match a data frame, for instance with the `adonis` function in `vegan`.
 
@@ -71,7 +71,7 @@ destination_row <- c("C", "E")
 dist_get(d, origin_row, destination_row)
 ```
 
-    ## [1] 1.934785 1.097498
+    ## [1] 1.821423 2.653173
 
 If items are arranged in groups, we can make a data frame listing the distances between items in group 1 and group 2:
 
@@ -81,21 +81,21 @@ dist_groups(d, item_groups)
 ```
 
     ##    Item1 Item2    Group1    Group2                         Label Distance
-    ## 1      A     B   Control   Control                Within Control 3.279332
-    ## 2      A     C   Control   Control                Within Control 1.934785
-    ## 3      A     D   Control Treatment Between Control and Treatment 2.594303
-    ## 4      A     E   Control Treatment Between Control and Treatment 4.088861
-    ## 5      A     F   Control Treatment Between Control and Treatment 3.855051
-    ## 6      B     C   Control   Control                Within Control 3.440489
-    ## 7      B     D   Control Treatment Between Control and Treatment 1.650398
-    ## 8      B     E   Control Treatment Between Control and Treatment 1.097498
-    ## 9      B     F   Control Treatment Between Control and Treatment 2.227971
-    ## 10     C     D   Control Treatment Between Control and Treatment 3.247115
-    ## 11     C     E   Control Treatment Between Control and Treatment 4.354833
-    ## 12     C     F   Control Treatment Between Control and Treatment 3.068413
-    ## 13     D     E Treatment Treatment              Within Treatment 2.098460
-    ## 14     D     F Treatment Treatment              Within Treatment 2.661704
-    ## 15     E     F Treatment Treatment              Within Treatment 2.935224
+    ## 1      A     B   Control   Control                Within Control 2.603430
+    ## 2      A     C   Control   Control                Within Control 1.821423
+    ## 3      A     D   Control Treatment Between Control and Treatment 3.472394
+    ## 4      A     E   Control Treatment Between Control and Treatment 2.672239
+    ## 5      A     F   Control Treatment Between Control and Treatment 2.843420
+    ## 6      B     C   Control   Control                Within Control 2.047355
+    ## 7      B     D   Control Treatment Between Control and Treatment 3.727228
+    ## 8      B     E   Control Treatment Between Control and Treatment 2.653173
+    ## 9      B     F   Control Treatment Between Control and Treatment 2.543180
+    ## 10     C     D   Control Treatment Between Control and Treatment 3.056922
+    ## 11     C     E   Control Treatment Between Control and Treatment 2.734967
+    ## 12     C     F   Control Treatment Between Control and Treatment 3.369470
+    ## 13     D     E Treatment Treatment              Within Treatment 2.069155
+    ## 14     D     F Treatment Treatment              Within Treatment 4.373791
+    ## 15     E     F Treatment Treatment              Within Treatment 3.129488
 
 Also, we provide a function to compute user-defined distances between rows in the data matrix:
 
@@ -104,12 +104,12 @@ bray_curtis_distance <- function (x1, x2) sum(abs(x1 - x2)) / sum(x1 + x2)
 dist_make(vals, bray_curtis_distance)
 ```
 
-    ##               A             B             C             D             E
-    ## B    -2.7295793                                                        
-    ## C    -1.6143743    -1.8602607                                          
-    ## D -1204.1513684    -2.0780341    -5.5293697                            
-    ## E    -2.9596676    -0.5632791    -2.1333748    -2.1835388              
-    ## F   -39.0032103    -3.3582714    -5.4531192     5.0314896    -3.0087266
+    ##            A          B          C          D          E
+    ## B  -2.556549                                            
+    ## C   2.508164  14.671790                                 
+    ## D   1.895260   5.528607   1.024831                      
+    ## E -35.178571  -4.028828   2.292264   1.238016           
+    ## F  -1.300526  -1.197491 -12.809167  13.392082  -3.171941
 
 Centroid functions
 ------------------
