@@ -71,11 +71,17 @@ dist_groups(d, item_groups)
 ```
 
 Also, we provide a function to compute user-defined distances between
-rows in the data matrix:
+rows in the data matrix. For example, the Bray-Curtis dissimilarity is useful
+for count data:
 
 ```{r}
-bray_curtis_distance <- function (x1, x2) sum(abs(x1 - x2)) / sum(x1 + x2)
-dist_make(vals, bray_curtis_distance)
+cts <- matrix(rpois(30, 10), nrow=5)
+cts
+```
+
+```{r}
+bray_curtis_dissimilarity <- function (x1, x2) sum(abs(x1 - x2)) / sum(x1 + x2)
+dist_make(cts, bray_curtis_dissimilarity)
 ```
 
 ## Centroid functions
@@ -99,7 +105,8 @@ pts <- data.frame(
 library(ggplot2)
 ggplot(pts, aes(x=x, y=y)) +
   geom_point(aes(color=Group)) +
-  geom_text(aes(label=Item), hjust=1.5)
+  geom_text(aes(label=Item), hjust=1.5) +
+  coord_equal()
 ```
 
 Now for the trick: we'll take the distances between points, then figure out the

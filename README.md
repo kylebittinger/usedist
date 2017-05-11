@@ -97,19 +97,30 @@ dist_groups(d, item_groups)
     ## 14     D     F Treatment Treatment              Within Treatment 4.373791
     ## 15     E     F Treatment Treatment              Within Treatment 3.129488
 
-Also, we provide a function to compute user-defined distances between rows in the data matrix:
+Also, we provide a function to compute user-defined distances between rows in the data matrix. For example, the Bray-Curtis dissimilarity is useful for count data:
 
 ``` r
-bray_curtis_distance <- function (x1, x2) sum(abs(x1 - x2)) / sum(x1 + x2)
-dist_make(vals, bray_curtis_distance)
+cts <- matrix(rpois(30, 10), nrow=5)
+cts
 ```
 
-    ##            A          B          C          D          E
-    ## B  -2.556549                                            
-    ## C   2.508164  14.671790                                 
-    ## D   1.895260   5.528607   1.024831                      
-    ## E -35.178571  -4.028828   2.292264   1.238016           
-    ## F  -1.300526  -1.197491 -12.809167  13.392082  -3.171941
+    ##      [,1] [,2] [,3] [,4] [,5] [,6]
+    ## [1,]    9   13   11   12   11   12
+    ## [2,]    8    8    8    9    6    9
+    ## [3,]    8   13    7   12   10   12
+    ## [4,]    7    9    7   11   11   10
+    ## [5,]    5   15    5    8    9    7
+
+``` r
+bray_curtis_dissimilarity <- function (x1, x2) sum(abs(x1 - x2)) / sum(x1 + x2)
+dist_make(cts, bray_curtis_dissimilarity)
+```
+
+    ##            1          2          3          4
+    ## 2 0.17241379                                 
+    ## 3 0.04615385 0.14545455                      
+    ## 4 0.10569106 0.10679612 0.07692308           
+    ## 5 0.19658120 0.19587629 0.15315315 0.17307692
 
 Centroid functions
 ------------------
@@ -128,10 +139,11 @@ pts <- data.frame(
 library(ggplot2)
 ggplot(pts, aes(x=x, y=y)) +
   geom_point(aes(color=Group)) +
-  geom_text(aes(label=Item), hjust=1.5)
+  geom_text(aes(label=Item), hjust=1.5) +
+  coord_equal()
 ```
 
-![](README_files/figure-markdown_github/unnamed-chunk-9-1.png)
+![](README_files/figure-markdown_github/unnamed-chunk-10-1.png)
 
 Now for the trick: we'll take the distances between points, then figure out the distances to the group centroids using only the point-to-point distances.
 
