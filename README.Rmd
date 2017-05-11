@@ -76,6 +76,7 @@ for count data:
 
 ```{r}
 cts <- matrix(rpois(30, 10), nrow=5)
+rownames(cts) <- LETTERS[1:5]
 cts
 ```
 
