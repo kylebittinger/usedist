@@ -5,6 +5,8 @@ usedist
 
 This package provides useful functions for distance matrix objects in R.
 
+[![Travis-CI Build Status](https://travis-ci.org/kylebittinger/usedist.svg?branch=master)](https://travis-ci.org/kylebittinger/usedist)
+
 Installation
 ------------
 
