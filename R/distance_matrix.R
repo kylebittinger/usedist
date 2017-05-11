@@ -239,7 +239,7 @@ dist_to_centroids <- function (d, g) {
 #' The formulas for this were presented by Apostol and Mnatsakanian in 2003,
 #' though we need to re-arrange equation 28 to get the value we want:
 #'
-#' \deqn{\lvert c_1 - c_2 \rvert = \sqrt{
+#' \deqn{| c_1 - c_2 | = \sqrt{
 #'    \frac{1}{n_1 n_2} \sum_{(1,2)} -
 #'    \frac{1}{n_1^2} \sum_{(1)} -
 #'    \frac{1}{n_2^2} \sum_{(2)}},}
