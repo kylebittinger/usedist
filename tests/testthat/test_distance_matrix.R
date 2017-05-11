@@ -78,7 +78,7 @@ pts_g <- rep(paste("Group", 1:2), each=4)
 context("dist_between_centroids")
 
 test_that("dist_between_centroids works on 2D Euclidean example", {
-  expect_equal(dist_between_centroids(d, 1:4, 5:8), 3.0)
+  expect_equal(dist_between_centroids(pts_d, 1:4, 5:8), 3.0)
 })
 
 context("dist_to_centroids")
@@ -86,7 +86,7 @@ context("dist_to_centroids")
 test_that("dist_to_centroids works on 2D Euclidean example", {
   expected_df <- expand.grid(
     Item = LETTERS[1:8],
-    Group = paste("Group", 1:2),
+    CentroidGroup = paste("Group", 1:2),
     stringsAsFactors=FALSE)
   expected_df$CentroidDistance = c(
       1, 1, 1, 1, 2, sqrt(10), sqrt(10), 4,

@@ -25,7 +25,7 @@ The result is a data frame with three columns:
   \item{Item}{
     A character vector of item labels from the dist object, or an integer
     vector of item locations if labels are not present.}
-  \item{Group}{
+  \item{CentroidGroup}{
     The group for which the centroid distance is given. The column type
     should match that of the argument g (the \code{unique} function is used
     to generate this column).}

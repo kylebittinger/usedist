@@ -1,4 +1,4 @@
 library(testthat)
 library(usedist)
 
-test_check("yourpackage")
+test_check("usedist")

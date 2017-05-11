@@ -25,7 +25,7 @@ dist_setNames <- function (d, nm) {
   # if nm does not contain the same number of elements as d
   dm <- as.matrix(d)
   dimnames(dm) <- list(nm, nm)
-  as.dist(dm)
+  stats::as.dist(dm)
 }
 
 #' Retrieve distances from a `"dist"` object.
@@ -43,7 +43,7 @@ dist_setNames <- function (d, nm) {
 #' dist_get(dm4, "A", c("A", "B", "C", "D"))
 #' dist_get(dm4, c("A", "B", "C"), c("B", "D", "B"))
 dist_get <- function (d, idx1, idx2) {
-  d <- as.dist(d)
+  d <- stats::as.dist(d)
   if (is.character(idx1)) {
     idx1 <- match(idx1, attr(d, "Labels"))
   }
@@ -80,7 +80,7 @@ dist_get <- function (d, idx1, idx2) {
 #' dist_subset(dm4, c("A", "B", "C"))
 #' dist_subset(dm4, c("D", "C", "B", "A"))
 dist_subset <- function (d, idx) {
-  as.dist(as.matrix(d)[idx, idx])
+  stats::as.dist(as.matrix(d)[idx, idx])
 }
 
 #' Create a data frame of distances between groups of items.
@@ -99,7 +99,7 @@ dist_subset <- function (d, idx) {
 #' g4 <- rep(c("Control", "Treatment"), each=2)
 #' dist_groups(dm4, g4)
 dist_groups <- function(d, g) {
-  d <- as.dist(d)
+  d <- stats::as.dist(d)
   g <- as.factor(g)
   dsize <- attr(d, "Size")
   if (length(g) != dsize) {
@@ -108,7 +108,7 @@ dist_groups <- function(d, g) {
       "dist object (d)")
   }
   dlabels <- attr(d, "Labels")
-  idxs <- combn(dsize, 2)
+  idxs <- utils::combn(dsize, 2)
   idx1 <- idxs[1,]
   idx2 <- idxs[2,]
 
@@ -152,7 +152,7 @@ dist_make <- function (x, distance_fcn, method=NULL) {
     distance_fcn(x[i1,], x[i2,])
   }
   size <- nrow(x)
-  d <- apply(combn(size, 2), 2, distance_from_idxs)
+  d <- apply(utils::combn(size, 2), 2, distance_from_idxs)
   attr(d, "Size") <- size
   xnames <- rownames(x)
   if (!is.null(xnames)) {
@@ -194,7 +194,7 @@ dist_make <- function (x, distance_fcn, method=NULL) {
 #'
 #' @export
 dist_to_centroids <- function (d, g) {
-  d <- as.dist(d)
+  d <- stats::as.dist(d)
   d2 <- d ** 2
   items <- attr(d, "Labels")
   # Use numeric index for items if the distance matrix has no labels
