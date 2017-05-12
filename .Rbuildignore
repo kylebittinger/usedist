@@ -4,4 +4,3 @@
 ^README_files$
 ^README_files.*\.png$
 ^\.travis\.yml$
-NEWS\.md
