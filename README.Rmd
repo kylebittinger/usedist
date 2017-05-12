@@ -6,7 +6,7 @@ output: github_document
 
 ```{r, echo = FALSE}
 knitr::opts_chunk$set(
-  fig.path = "README_files/"
+  fig.path = "tools/readme/"
 )
 ```
 
