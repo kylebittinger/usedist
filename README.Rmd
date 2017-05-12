@@ -4,12 +4,17 @@ output: github_document
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  fig.path = "README_files/"
+)
+```
+
 ```{r echo=FALSE, message=FALSE}
 library(devtools)
 load_all()
 set.seed(0)
 ```
-
 
 # usedist
 
@@ -98,7 +103,7 @@ used can be found in the function documentation.
 To illustrate, let's create a set of points in 2-dimensional space.  Four points
 will be centered around the origin, and four around the point (3, 0).
 
-```{r}
+```{r centroid_example}
 pts <- data.frame(
   x = c(-1, 0, 0, 1, 2, 3, 3, 4),
   y = c(0, 1, -1, 0, 0, 1, -1, 0),

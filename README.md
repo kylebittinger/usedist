@@ -146,7 +146,7 @@ ggplot(pts, aes(x=x, y=y)) +
   coord_equal()
 ```
 
-![](README_files/figure-markdown_github/unnamed-chunk-10-1.png)
+![](README_files/centroid_example-1.png)
 
 Now for the trick: we'll take the distances between points, then figure out the distances to the group centroids using only the point-to-point distances.
 
