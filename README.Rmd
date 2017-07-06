@@ -28,7 +28,7 @@ You can install usedist from github with:
 
 ```{r eval=FALSE}
 # install.packages("devtools")
-devtools::install_github("usedist/kylebittinger")
+devtools::install_github("kylebittinger/usedist")
 ```
 
 ## Utility functions
