@@ -171,6 +171,7 @@ dist_make <- function (x, distance_fcn, method=NULL) {
 #'
 #' @param d A distance matrix object of class `"dist"`.
 #' @param g A factor representing the groups of items in `d`.
+#' @param squared If `TRUE`, return the squared distance to group centroids.
 #' @return A data frame with distances to the group centroids (see details).
 #'
 #' This function computes the distance from each item to the centroid positions
@@ -193,7 +194,7 @@ dist_make <- function (x, distance_fcn, method=NULL) {
 #'     indicated group.}}
 #'
 #' @export
-dist_to_centroids <- function (d, g) {
+dist_to_centroids <- function (d, g, squared = FALSE) {
   d <- stats::as.dist(d)
   d2 <- d ** 2
   items <- attr(d, "Labels")
@@ -211,7 +212,12 @@ dist_to_centroids <- function (d, g) {
     sum12 <- sum(as.matrix(d2)[idx1, idx2])
     term1 <- sum1 / (n1 ** 2)
     term12 <- sum12 / n1
-    sqrt(term12 - term1)
+    result_squared <- term12 - term1
+    if (squared) {
+      result_squared
+    } else {
+      sqrt(result_squared)
+    }
   }
   df$CentroidDistance <- mapply(
     dist_to_group_centroid, df$Item, df$CentroidGroup)
@@ -221,8 +227,9 @@ dist_to_centroids <- function (d, g) {
 #' Compute the distance between group centroids
 #'
 #' @param d A distance matrix object of class `"dist"`.
-#' @param idx1 A vector of items in group 1
-#' @param idx2 A vector of items in group 2
+#' @param idx1 A vector of items in group 1.
+#' @param idx2 A vector of items in group 2.
+#' @param squared If `TRUE`, return the squared distance between centroids.
 #' @return The distance between group centroids (see details).
 #'
 #' It is possible to infer the distance between group centroids directly from
@@ -252,7 +259,7 @@ dist_to_centroids <- function (d, g) {
 #'   in m-space. Math. Assoc. Am. Monthly 110, 516 (2003).
 #'
 #' @export
-dist_between_centroids <- function (d, idx1, idx2) {
+dist_between_centroids <- function (d, idx1, idx2, squared = FALSE) {
   d2 <- d ** 2
   # Should this function supprot boolean indexing? Check to see if dist_subset
   # supports booleans.
@@ -264,5 +271,10 @@ dist_between_centroids <- function (d, idx1, idx2) {
   term1 <- sum1 / (n1 ** 2)
   term2 <- sum2 / (n2 ** 2)
   term12 <- sum12 / (n1 * n2)
-  sqrt(term12 - term1 - term2)
+  result_squared <- term12 - term1 - term2
+  if (squared) {
+    result_squared
+  } else {
+    sqrt(result_squared)
+  }
 }
