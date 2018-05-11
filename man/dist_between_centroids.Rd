@@ -4,14 +4,16 @@
 \alias{dist_between_centroids}
 \title{Compute the distance between group centroids}
 \usage{
-dist_between_centroids(d, idx1, idx2)
+dist_between_centroids(d, idx1, idx2, squared = FALSE)
 }
 \arguments{
 \item{d}{A distance matrix object of class `"dist"`.}
 
-\item{idx1}{A vector of items in group 1}
+\item{idx1}{A vector of items in group 1.}
 
-\item{idx2}{A vector of items in group 2}
+\item{idx2}{A vector of items in group 2.}
+
+\item{squared}{If `TRUE`, return the squared distance between centroids.}
 }
 \value{
 The distance between group centroids (see details).

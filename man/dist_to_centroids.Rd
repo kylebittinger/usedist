@@ -4,12 +4,14 @@
 \alias{dist_to_centroids}
 \title{Compute distances from each item to group centroids}
 \usage{
-dist_to_centroids(d, g)
+dist_to_centroids(d, g, squared = FALSE)
 }
 \arguments{
 \item{d}{A distance matrix object of class `"dist"`.}
 
 \item{g}{A factor representing the groups of items in `d`.}
+
+\item{squared}{If `TRUE`, return the squared distance to group centroids.}
 }
 \value{
 A data frame with distances to the group centroids (see details).
