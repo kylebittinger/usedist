@@ -2,14 +2,14 @@
 % Please edit documentation in R/distance_matrix.R
 \name{dist_get}
 \alias{dist_get}
-\title{Retrieve distances from a `"dist"` object.
+\title{Retrieve distances from a \code{dist} object.
 Check if square
 Check if numeric}
 \usage{
 dist_get(d, idx1, idx2)
 }
 \arguments{
-\item{d}{A distance matrix object of class `"dist"`.}
+\item{d}{A distance matrix object of class \code{dist}.}
 
 \item{idx1, idx2}{Indicies specifying the distances to extract.}
 }
@@ -17,7 +17,7 @@ dist_get(d, idx1, idx2)
 A vector of distances.
 }
 \description{
-Retrieve distances from a `"dist"` object.
+Retrieve distances from a \code{dist} object.
 Check if square
 Check if numeric
 }

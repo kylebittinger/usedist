@@ -2,17 +2,17 @@
 % Please edit documentation in R/distance_matrix.R
 \name{dist_setNames}
 \alias{dist_setNames}
-\title{Set the names/labels of a `"dist"` object.}
+\title{Set the names/labels of a \code{dist} object.}
 \usage{
 dist_setNames(d, nm)
 }
 \arguments{
-\item{d}{A distance matrix object of class `"dist"`.}
+\item{d}{A distance matrix object of class \code{dist}.}
 
 \item{nm}{New labels for the rows/columns.}
 }
 \description{
-Set the names/labels of a `"dist"` object.
+Set the names/labels of a \code{dist} object.
 }
 \examples{
 m4 <- matrix(1:16, nrow=4, dimnames=list(LETTERS[1:4]))

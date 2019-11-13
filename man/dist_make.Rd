@@ -13,11 +13,11 @@ dist_make(x, distance_fcn, method = NULL)
 distance between two rows of the data matrix.}
 
 \item{method}{Name for the distance method.  If provided, will be stored in
-the `"method"` attribute of the result.}
+the \code{method} attribute of the result.}
 }
 \value{
-A `"dist"` object containing the distances between rows of the data
-  matrix.
+A \code{dist} object containing the distances between rows of the
+  data matrix.
 }
 \description{
 Make a distance matrix using a custom distance function

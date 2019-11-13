@@ -7,21 +7,21 @@
 dist_between_centroids(d, idx1, idx2, squared = FALSE)
 }
 \arguments{
-\item{d}{A distance matrix object of class `"dist"`.}
+\item{d}{A distance matrix object of class \code{dist}.}
 
 \item{idx1}{A vector of items in group 1.}
 
 \item{idx2}{A vector of items in group 2.}
 
-\item{squared}{If `TRUE`, return the squared distance between centroids.}
+\item{squared}{If \code{TRUE}, return the squared distance between centroids.}
 }
 \value{
 The distance between group centroids (see details).
 
 It is possible to infer the distance between group centroids directly from
-the distances between items in each group.  The `adonis` test in the ecology
-package `vegan` takes advantage of this approach to carry out an ANOVA-like
-test on distances.
+the distances between items in each group.  The \code{adonis} test in the
+ecology package \code{vegan} takes advantage of this approach to carry out
+an ANOVA-like test on distances.
 
 The approach rests on the assumption that the items in the distance matrix
 occupy some high-dimensional Euclidean space.  However, we do not have to
@@ -40,6 +40,16 @@ though we need to re-arrange equation 28 to get the value we want:
 where \eqn{n_1} is the number of samples in group 1, \eqn{\sum_{(1)}} is the
 sum of squared distances between items in group 1, and \eqn{\sum_{(1,2)}} is
 the sum of squared distances between items in group 1 and those in group 2.
+
+Sometimes, the distance between centroids is not a real number, because it
+is not possible to create a space where this distance exists. Mathematically,
+the last step in the computation is to take a square root. If the distance
+between centroids cannot be represented, we get a negative number before
+taking the square root. If this happens, the function returns \code{NaN}. If
+you'd like to have access to this value, you can set \code{squared = TRUE} to
+return the squared distance between centroids. In this case, you will never
+get \code{NaN}, but you might receive negative numbers for the squared
+distance.
 }
 \description{
 Compute the distance between group centroids

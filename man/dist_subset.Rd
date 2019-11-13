@@ -2,12 +2,12 @@
 % Please edit documentation in R/distance_matrix.R
 \name{dist_subset}
 \alias{dist_subset}
-\title{Extract parts of a `"dist"` object.}
+\title{Extract parts of a \code{dist} object.}
 \usage{
 dist_subset(d, idx)
 }
 \arguments{
-\item{d}{A distance matrix object of class `"dist"`.}
+\item{d}{A distance matrix object of class \code{dist}.}
 
 \item{idx}{Indices specifying the subset of distances to extract.}
 }

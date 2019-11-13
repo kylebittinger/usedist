@@ -7,17 +7,18 @@
 dist_to_centroids(d, g, squared = FALSE)
 }
 \arguments{
-\item{d}{A distance matrix object of class `"dist"`.}
+\item{d}{A distance matrix object of class \code{dist}.}
 
-\item{g}{A factor representing the groups of items in `d`.}
+\item{g}{A factor representing the groups of items in \code{d}.}
 
-\item{squared}{If `TRUE`, return the squared distance to group centroids.}
+\item{squared}{If \code{TRUE}, return the squared distance to group
+centroids.}
 }
 \value{
 A data frame with distances to the group centroids (see details).
 
 This function computes the distance from each item to the centroid positions
-of groups defined in the argument `g`.  This is accomplished without
+of groups defined in the argument \code{g}.  This is accomplished without
 determining the centroid positions directly; see the documentation for
 \code{\link{dist_between_centroids}} for details on this procedure.
 
@@ -34,6 +35,10 @@ The result is a data frame with three columns:
   \item{CentroidDistance}{
     Inferred distance from the item to the centroid position of the
     indicated group.}}
+
+The \code{CentroidDistance} is set to \code{NaN} if the distance can't be
+represented in a Euclidean space.  See the documentation for
+\code{\link{dist_between_centroids}} for further details.
 }
 \description{
 Compute distances from each item to group centroids

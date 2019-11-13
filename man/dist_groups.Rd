@@ -7,9 +7,9 @@
 dist_groups(d, g)
 }
 \arguments{
-\item{d}{A distance matrix object of class `"dist"`.}
+\item{d}{A distance matrix object of class \code{dist}.}
 
-\item{g}{A factor representing the groups of objects in `d`.}
+\item{g}{A factor representing the groups of objects in \code{d}.}
 }
 \value{
 A data frame with 6 columns. "Item1" and "Item2" identify the
