@@ -298,10 +298,10 @@ data_matrix
     ## C  0 15 10
 
 Note that we provide bare column names in the call to
-`pivot_to_numeric_matrix()`. This function, and the next, require some
-extra packages to be installed. They are listed as suggestions for
-`usedist`. If the aditional packages are not installed on your system,
-you’ll get an error message with the missing packages listed.
+`pivot_to_numeric_matrix()`. This function requires some extra packages
+to be installed. They are listed as suggestions for `usedist`. If the
+aditional packages are not installed on your system, you’ll get an error
+message with the missing packages listed.
 
 The matrix format is what we need for distance calculations. If you want
 to convert from long format and use a custom distance function, you can
