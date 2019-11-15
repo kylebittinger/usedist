@@ -19,3 +19,12 @@ test_that("Data frame in long format converted to numeric matrix", {
     pivot_to_numeric_matrix(data_long, Observation, Feature, Val),
     data_wide)
 })
+
+test_that("Extra columns are discarded", {
+  data_long$Extra1 <- rnorm(15)
+  data_long$Extra2 <- LETTERS[1:15]
+  expect_equal(ncol(data_long), 5)
+  expect_equal(
+    pivot_to_numeric_matrix(data_long, Observation, Feature, Val),
+    data_wide)
+})
