@@ -14,7 +14,7 @@ You can install usedist from github with:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("usedist/kylebittinger")
+devtools::install_github("kylebittinger/usedist")
 ```
 
 ## Introduction to distance matrices in R
