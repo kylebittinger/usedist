@@ -1,4 +1,5 @@
-check_packages <- function (fcn_name, pkg_names) {
+check_tidyverse <- function () {
+  pkg_names <- c("dplyr", "tidyr", "tibble")
   is_installed <- sapply(pkg_names, requireNamespace, quietly = TRUE)
   pkgs_not_installed <- pkg_names[!is_installed]
   if (length(pkgs_not_installed) == 1) {
@@ -46,18 +47,25 @@ check_packages <- function (fcn_name, pkg_names) {
 #' longdata
 #' pivot_to_numeric_matrix(longdata, SampleID, FeatureID, Value)
 pivot_to_numeric_matrix <- function (data, obs_col, feature_col, value_col) {
-  check_packages("pivot_to_numeric_matrix", c("dplyr", "tidyr", "tibble"))
+  check_tidyverse()
   obs_col <- dplyr::enquo(obs_col)
   feature_col <- dplyr::enquo(feature_col)
   value_col <- dplyr::enquo(value_col)
   value_fill <- list(0)
   names(value_fill) <- dplyr::as_label(value_col)
-  data_wide <- tidyr::pivot_wider(
-    data,
-    id_cols = !!obs_col,
-    names_from = !!feature_col,
-    values_from = !!value_col,
-    values_fill = value_fill)
+  # The function pivot_wider is not in older versions of tidyr.
+  # Fall back to spread if pivot_wider is not found
+  if (exists("pivot_wider", where=asNamespace("tidyr"), mode="function")) {
+    data_wide <- tidyr::pivot_wider(
+      data,
+      id_cols = !!obs_col,
+      names_from = !!feature_col,
+      values_from = !!value_col,
+      values_fill = value_fill)
+  } else {
+    data <- dplyr::select(data, !!obs_col, !!feature_col, !!value_col)
+    data_wide <- tidyr::spread(data, !!feature_col, !!value_col)
+  }
   data_wide <- tibble::column_to_rownames(data_wide, dplyr::as_label(obs_col))
   as.matrix(as.data.frame(data_wide))
 }
