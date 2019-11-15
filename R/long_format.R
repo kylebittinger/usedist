@@ -8,7 +8,8 @@ check_packages <- function (fcn_name, pkg_names) {
       "missing package to use this function."
     )
     stop(msg, call. = FALSE)
-  } else if (length(pkgs_not_installed) > 1) {
+  }
+  if (length(pkgs_not_installed) > 1) {
     pkgs_not_installed <- paste(pkgs_not_installed, collapse = "\", \"")
     msg <- paste0(
       "Packages \"", pkgs_not_installed, "\" are not installed, but are ",
@@ -45,9 +46,7 @@ check_packages <- function (fcn_name, pkg_names) {
 #' longdata
 #' pivot_to_numeric_matrix(longdata, SampleID, FeatureID, Value)
 pivot_to_numeric_matrix <- function (data, obs_col, feature_col, value_col) {
-  check_packages(
-    "usedist::pivot_to_numeric_matrix",
-    c("dplyr", "tidyr", "tibble"))
+  check_packages("pivot_to_numeric_matrix", c("dplyr", "tidyr", "tibble"))
   obs_col <- dplyr::enquo(obs_col)
   feature_col <- dplyr::enquo(feature_col)
   value_col <- dplyr::enquo(value_col)
@@ -61,38 +60,4 @@ pivot_to_numeric_matrix <- function (data, obs_col, feature_col, value_col) {
     values_fill = value_fill)
   data_wide <- tibble::column_to_rownames(data_wide, dplyr::as_label(obs_col))
   as.matrix(as.data.frame(data_wide))
-}
-
-#' Compute distances on data in long format
-#'
-#' @param data A data frame with numerical values in long format.
-#' @param obs_col The column listing the observation, or row of the matrix.
-#' @param feature_col The column listing the feature, or column of the matrix.
-#' @param value_col The column listing the value, to be placed inside the
-#'   matrix.
-#' @param distance_fcn The distance function to use. This function should take
-#'   two numeric vectors and return a number representing the distance or
-#'   dissimilarity.
-#'
-#'#' This function requires the packages \code{dplyr}, \code{tibble}, and
-#' \code{tidyr} to be installed. If they are not installed, the function will
-#' generate an error, with a message to install the appropriate packages.
-#'
-#' @export
-#' @examples
-#' longdata <- expand.grid(
-#'   SampleID = c("A", "B", "C"),
-#'   FeatureID = c("x", "y", "z"))
-#' longdata$Value = sin(1:9)
-#' longdata
-#'
-#' manhattan_distance <- function (v1, v2) sum(abs(v1 - v2))
-#' dist_long(longdata, SampleID, FeatureID, Value, manhattan_distance)
-dist_long <- function (data, obs_col, feature_col, value_col, distance_fcn) {
-  check_packages("usedist::dist_long", c("dplyr", "tibble", "tidyr"))
-  obs_col <- dplyr::enquo(obs_col)
-  feature_col <- dplyr::enquo(feature_col)
-  value_col <- dplyr::enquo(value_col)
-  data_matrix <- pivot_to_numeric_matrix(data, !!obs_col, !!feature_col, !!value_col)
-  usedist::dist_make(data_matrix, distance_fcn)
 }
