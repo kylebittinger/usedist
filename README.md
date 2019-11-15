@@ -250,8 +250,8 @@ dist_to_centroids(pts_distances, pts$Group)
 
 You can use the Pythagorean theorem to check that the other distances
 are correct. The distance between point “G” and the centroid for the
-*Control* group, should be sqrt(3<sup>2</sup> + 1<sup>2</sup>) =
-sqrt(10) = 3.162.
+*Control* group should be sqrt(3<sup>2</sup> + 1<sup>2</sup>) = sqrt(10)
+= 3.162278.
 
 ## Long format data
 
