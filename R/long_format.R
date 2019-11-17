@@ -5,7 +5,7 @@ check_tidyverse <- function () {
   if (length(pkgs_not_installed) == 1) {
     msg <- paste0(
       "Package \"", pkgs_not_installed, "\" is not installed, but is ",
-      "needed by the function \"", fcn_name, "\".  Please install the ",
+      "needed by \"usedist::pivot_to_numeric_matrix\".  Please install the ",
       "missing package to use this function."
     )
     stop(msg, call. = FALSE)
@@ -14,7 +14,7 @@ check_tidyverse <- function () {
     pkgs_not_installed <- paste(pkgs_not_installed, collapse = "\", \"")
     msg <- paste0(
       "Packages \"", pkgs_not_installed, "\" are not installed, but are ",
-      "needed by the function \"", fcn_name, "\".  Please install the ",
+      "needed by \"usedist::pivot_to_numeric_matrix\".  Please install the ",
       "missing packages to use this function."
     )
     stop(msg, call. = FALSE)
