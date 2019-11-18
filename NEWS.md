@@ -8,7 +8,7 @@ Sometimes, we end up with a negative number inside the square root. Normally,
 this produces `NaN` as a result. However, if `squared` is set to `TRUE`, we
 don't take the square root and the result is always a real number. The default
 setting is `squared = FALSE`, which gives the distance as you'd expect. Thanks
-to An Bui for helpful advice on this topic.
+to Sam Ross for helpful advice on this topic.
 
 We added a new function, `pivot_to_numeric_matrix()`. This function takes a
 data frame in long format and converts to a matrix suitable for distance
