@@ -127,11 +127,17 @@ dist_to_centroids <- function (d, g, squared = FALSE) {
 #'
 #' @export
 dist_between_centroids <- function (d, idx1, idx2, squared = FALSE) {
+  if (is.logical(idx1)) {
+    n1 <- sum(idx1)
+  } else {
+    n1 <- length(idx1)
+  }
+  if (is.logical(idx2)) {
+    n2 <- sum(idx2)
+  } else {
+    n2 <- length(idx2)
+  }
   d2 <- d ** 2
-  # Should this function supprot boolean indexing? Check to see if dist_subset
-  # supports booleans.
-  n1 <- length(idx1)
-  n2 <- length(idx2)
   sum1 <- sum(dist_subset(d2, idx1))
   sum2 <- sum(dist_subset(d2, idx2))
   sum12 <- sum(as.matrix(d2)[idx1, idx2])

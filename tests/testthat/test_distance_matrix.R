@@ -120,6 +120,11 @@ test_that("dist_between_centroids returns squared distances", {
   expect_equal(dist_between_centroids(pts_d, 1:4, 5:8, squared = TRUE), 9.0)
 })
 
+test_that("dist_between_centroids works with logical indices", {
+  group1 <- c(TRUE, TRUE, TRUE, TRUE, FALSE, FALSE, FALSE, FALSE)
+  expect_equal(dist_between_centroids(pts_d, group1, !group1), 3.0)
+})
+
 test_that("dist_between_centroids returns NaN if distance is non-Euclidean", {
   expect_warning(
     res <- dist_between_centroids(noneuclidean, 1:3, 4),
