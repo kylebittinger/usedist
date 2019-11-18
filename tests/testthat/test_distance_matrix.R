@@ -8,6 +8,17 @@ dm <- matrix(
   dimnames=list(dm_names, dm_names))
 dm <- as.dist(dm)
 
+dm_124 <- matrix(
+  c(0, 1, 3,
+    1, 0, 5,
+    3, 5, 0),
+  ncol = 3,
+  dimnames = list(c("a", "b", "d"), c("a", "b", "d")))
+dm_124 <- as.dist(dm_124)
+# The call attribute is different depending on how the distance matrix
+# was generated. Remove it for the tests.
+attr(dm_124, "call") <- NULL
+
 context('dist_setNames')
 
 test_that('dist_setNames can set the labels', {
@@ -34,10 +45,25 @@ test_that('dist_get works with numeric indices', {
   expect_equal(dist_get(dm, c(1, 3), c(4, 4)), c(3, 6))
 })
 
+
 context('dist_subset')
 
-test_that('dist_subset returns a dist object', {
-  expect_equal(class(dist_subset(dm, 1:3)), "dist")
+test_that('dist_subset works with numeric vectors', {
+  res <- dist_subset(dm, c(1, 2, 4))
+  attr(res, "call") <- NULL
+  expect_equal(res, dm_124)
+})
+
+test_that('dist_subset works with boolean vectors', {
+  res <- dist_subset(dm, c(TRUE, TRUE, FALSE, TRUE))
+  attr(res, "call") <- NULL
+  expect_equal(res, dm_124)
+})
+
+test_that('dist_subset works with named vectors', {
+  res <- dist_subset(dm, c("a", "b", "d"))
+  attr(res, "call") <- NULL
+  expect_equal(res, dm_124)
 })
 
 context("dist_groups")
