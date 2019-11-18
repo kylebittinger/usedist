@@ -2,9 +2,7 @@
 % Please edit documentation in R/dist.R
 \name{dist_get}
 \alias{dist_get}
-\title{Retrieve distances from a \code{dist} object.
-Check if square
-Check if numeric}
+\title{Retrieve distances from a \code{dist} object.}
 \usage{
 dist_get(d, idx1, idx2)
 }
@@ -18,8 +16,6 @@ A vector of distances.
 }
 \description{
 Retrieve distances from a \code{dist} object.
-Check if square
-Check if numeric
 }
 \examples{
 m4 <- matrix(1:16, nrow=4, dimnames=list(LETTERS[1:4]))

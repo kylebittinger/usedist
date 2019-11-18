@@ -12,11 +12,12 @@ dist_groups(d, g)
 \item{g}{A factor representing the groups of objects in \code{d}.}
 }
 \value{
-A data frame with 6 columns. "Item1" and "Item2" identify the
-  items compared, using the label if available. Likewise, "Group1" and
-  "Group2" identify the groups of the items. "Label" is a factor giving a
-  convenient label for the type of comparison. Finally, "Distance" contains
-  the distance of interest.
+A data frame with 6 columns:
+\describe{
+  \item{Item1, Item2}{The items being compared.}
+  \item{Group1, Group2}{The groups to which the items belong.}
+  \item{Label}{A convenient label for plotting or comparison.}
+  \item{Distance}{The distance between Item1 and Item2.}}
 }
 \description{
 Create a data frame of distances between groups of items.

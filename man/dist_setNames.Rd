@@ -11,6 +11,9 @@ dist_setNames(d, nm)
 
 \item{nm}{New labels for the rows/columns.}
 }
+\value{
+A distance matrix with new row/column labels.
+}
 \description{
 Set the names/labels of a \code{dist} object.
 }

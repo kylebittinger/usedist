@@ -1,11 +1,11 @@
 #' usedist: a package for working with distance matrices in R
 #'
 #' In usedist, we provide a number of functions to help with distance matrix
-#' objects, such as those produced by the \code{dist} function.  Some functions are
-#' geared towards making or altering distance matrix objects.  Others relate to
-#' groups of items in the distance matrix. They provide access to within- or
-#' between-group distances, or use these distances to infer the distance to
-#' group centroids.
+#' objects, such as those produced by the \code{dist} function.  Some functions
+#' are geared towards making or altering distance matrix objects.  Others
+#' relate to groups of items in the distance matrix. They provide access to
+#' within- or between-group distances, or use these distances to infer the
+#' distance to group centroids.
 #'
 #' @docType package
 #' @name usedist
@@ -15,6 +15,7 @@ NULL
 #'
 #' @param d A distance matrix object of class \code{dist}.
 #' @param nm New labels for the rows/columns.
+#' @return A distance matrix with new row/column labels.
 #' @export
 #' @examples
 #' m4 <- matrix(1:16, nrow=4, dimnames=list(LETTERS[1:4]))
@@ -29,8 +30,6 @@ dist_setNames <- function (d, nm) {
 }
 
 #' Retrieve distances from a \code{dist} object.
-#' Check if square
-#' Check if numeric
 #'
 #' @param d A distance matrix object of class \code{dist}.
 #' @param idx1,idx2 Indicies specifying the distances to extract.
@@ -67,8 +66,9 @@ dist_get <- function (d, idx1, idx2) {
 
 #' Extract parts of a \code{dist} object.
 #'
-#' This function also works to re-arrange the elements of a distance matrix, if
-#' the indicies are provided in the desired order.
+#' Extract a subset of values from a distance matrix. This function also works
+#' to re-arrange the rows of a distance matrix, if they are provided in the
+#' desired order.
 #'
 #' @param d A distance matrix object of class \code{dist}.
 #' @param idx Indices specifying the subset of distances to extract.
@@ -87,11 +87,12 @@ dist_subset <- function (d, idx) {
 #'
 #' @param d A distance matrix object of class \code{dist}.
 #' @param g A factor representing the groups of objects in \code{d}.
-#' @return A data frame with 6 columns. "Item1" and "Item2" identify the
-#'   items compared, using the label if available. Likewise, "Group1" and
-#'   "Group2" identify the groups of the items. "Label" is a factor giving a
-#'   convenient label for the type of comparison. Finally, "Distance" contains
-#'   the distance of interest.
+#' @return A data frame with 6 columns:
+#' \describe{
+#'   \item{Item1, Item2}{The items being compared.}
+#'   \item{Group1, Group2}{The groups to which the items belong.}
+#'   \item{Label}{A convenient label for plotting or comparison.}
+#'   \item{Distance}{The distance between Item1 and Item2.}}
 #' @export
 #' @examples
 #' m4 <- matrix(1:16, nrow=4, dimnames=list(LETTERS[1:4]))

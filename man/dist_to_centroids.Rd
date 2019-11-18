@@ -15,14 +15,7 @@ dist_to_centroids(d, g, squared = FALSE)
 centroids.}
 }
 \value{
-A data frame with distances to the group centroids (see details).
-
-This function computes the distance from each item to the centroid positions
-of groups defined in the argument \code{g}.  This is accomplished without
-determining the centroid positions directly; see the documentation for
-\code{\link{dist_between_centroids}} for details on this procedure.
-
-The result is a data frame with three columns:
+A data frame with distances to the group centroids:
 
 \describe{
   \item{Item}{
@@ -35,11 +28,17 @@ The result is a data frame with three columns:
   \item{CentroidDistance}{
     Inferred distance from the item to the centroid position of the
     indicated group.}}
-
-The \code{CentroidDistance} is set to \code{NaN} if the distance can't be
-represented in a Euclidean space.  See the documentation for
-\code{\link{dist_between_centroids}} for further details.
 }
 \description{
 Compute distances from each item to group centroids
+}
+\details{
+This function computes the distance from each item to the centroid positions
+of groups defined in the argument \code{g}.  This is accomplished without
+determining the centroid positions directly; see the documentation for
+\code{\link{dist_between_centroids}} for details on this procedure.
+
+If the distance can't be represented in a Euclidean space, the
+\code{CentroidDistance} is set to \code{NaN}.  See the documentation for
+\code{\link{dist_between_centroids}} for further details.
 }

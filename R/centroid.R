@@ -4,14 +4,7 @@
 #' @param g A factor representing the groups of items in \code{d}.
 #' @param squared If \code{TRUE}, return the squared distance to group
 #'   centroids.
-#' @return A data frame with distances to the group centroids (see details).
-#'
-#' This function computes the distance from each item to the centroid positions
-#' of groups defined in the argument \code{g}.  This is accomplished without
-#' determining the centroid positions directly; see the documentation for
-#' \code{\link{dist_between_centroids}} for details on this procedure.
-#'
-#' The result is a data frame with three columns:
+#' @return A data frame with distances to the group centroids:
 #'
 #' \describe{
 #'   \item{Item}{
@@ -25,8 +18,14 @@
 #'     Inferred distance from the item to the centroid position of the
 #'     indicated group.}}
 #'
-#' The \code{CentroidDistance} is set to \code{NaN} if the distance can't be
-#' represented in a Euclidean space.  See the documentation for
+#' @details
+#' This function computes the distance from each item to the centroid positions
+#' of groups defined in the argument \code{g}.  This is accomplished without
+#' determining the centroid positions directly; see the documentation for
+#' \code{\link{dist_between_centroids}} for details on this procedure.
+#'
+#' If the distance can't be represented in a Euclidean space, the
+#' \code{CentroidDistance} is set to \code{NaN}.  See the documentation for
 #' \code{\link{dist_between_centroids}} for further details.
 #'
 #' @export
@@ -86,19 +85,25 @@ dist_to_centroids <- function (d, g, squared = FALSE) {
 #' @param squared If \code{TRUE}, return the squared distance between centroids.
 #' @return The distance between group centroids (see details).
 #'
+#' @details
+#' If you have a distance matrix, and the objects are partitioned into groups,
+#' you might like to know the distance between the group centroids. The
+#' centroid of each group is simply the center of mass for the group.
+#'
 #' It is possible to infer the distance between group centroids directly from
 #' the distances between items in each group.  The \code{adonis} test in the
 #' ecology package \code{vegan} takes advantage of this approach to carry out
 #' an ANOVA-like test on distances.
 #'
-#' The approach rests on the assumption that the items in the distance matrix
-#' occupy some high-dimensional Euclidean space.  However, we do not have to
-#' actually create the space to find the distance between centroids.  Using the
-#' assumption that such a space exists, we can use an algebraic formula to find
-#' the centroid distance.
+#' The approach rests on the assumption that the objects occupy some
+#' high-dimensional Euclidean space.  However, we do not have to actually
+#' create the space to find the distance between centroids.  Based on the
+#' assumption that such a space exists, we can use an algebraic formula to
+#' perform the computation.
 #'
 #' The formulas for this were presented by Apostol and Mnatsakanian in 2003,
-#' though we need to re-arrange equation 28 to get the value we want:
+#' though we need to re-arrange equation 28 in their paper to get the value
+#' we want:
 #'
 #' \deqn{| c_1 - c_2 | = \sqrt{
 #'    \frac{1}{n_1 n_2} \sum_{(1,2)} -
@@ -111,13 +116,11 @@ dist_to_centroids <- function (d, g, squared = FALSE) {
 #'
 #' Sometimes, the distance between centroids is not a real number, because it
 #' is not possible to create a space where this distance exists. Mathematically,
-#' the last step in the computation is to take a square root. If the distance
-#' between centroids cannot be represented, we get a negative number before
-#' taking the square root. If this happens, the function returns \code{NaN}. If
-#' you'd like to have access to this value, you can set \code{squared = TRUE} to
-#' return the squared distance between centroids. In this case, you will never
-#' get \code{NaN}, but you might receive negative numbers for the squared
-#' distance.
+#' we get a negative number underneath the square root in the equation above.
+#' If this happens, the function returns \code{NaN}. If you'd like to have
+#' access to this value, you can set \code{squared = TRUE} to return the
+#' squared distance between centroids. In this case, you will never get
+#' \code{NaN}, but you might receive negative numbers in your result.
 #'
 #' @references Apostol, T.M. and Mnatsakanian, M.A. Sums of squares of distances
 #'   in m-space. Math. Assoc. Am. Monthly 110, 516 (2003).

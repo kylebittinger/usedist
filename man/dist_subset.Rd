@@ -15,8 +15,9 @@ dist_subset(d, idx)
 A distance matrix.
 }
 \description{
-This function also works to re-arrange the elements of a distance matrix, if
-the indicies are provided in the desired order.
+Extract a subset of values from a distance matrix. This function also works
+to re-arrange the rows of a distance matrix, if they are provided in the
+desired order.
 }
 \examples{
 m4 <- matrix(1:16, nrow=4, dimnames=list(LETTERS[1:4]))

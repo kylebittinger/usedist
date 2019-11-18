@@ -17,20 +17,29 @@ dist_between_centroids(d, idx1, idx2, squared = FALSE)
 }
 \value{
 The distance between group centroids (see details).
+}
+\description{
+Compute the distance between group centroids
+}
+\details{
+If you have a distance matrix, and the objects are partitioned into groups,
+you might like to know the distance between the group centroids. The
+centroid of each group is simply the center of mass for the group.
 
 It is possible to infer the distance between group centroids directly from
 the distances between items in each group.  The \code{adonis} test in the
 ecology package \code{vegan} takes advantage of this approach to carry out
 an ANOVA-like test on distances.
 
-The approach rests on the assumption that the items in the distance matrix
-occupy some high-dimensional Euclidean space.  However, we do not have to
-actually create the space to find the distance between centroids.  Using the
-assumption that such a space exists, we can use an algebraic formula to find
-the centroid distance.
+The approach rests on the assumption that the objects occupy some
+high-dimensional Euclidean space.  However, we do not have to actually
+create the space to find the distance between centroids.  Based on the
+assumption that such a space exists, we can use an algebraic formula to
+perform the computation.
 
 The formulas for this were presented by Apostol and Mnatsakanian in 2003,
-though we need to re-arrange equation 28 to get the value we want:
+though we need to re-arrange equation 28 in their paper to get the value
+we want:
 
 \deqn{| c_1 - c_2 | = \sqrt{
    \frac{1}{n_1 n_2} \sum_{(1,2)} -
@@ -43,16 +52,11 @@ the sum of squared distances between items in group 1 and those in group 2.
 
 Sometimes, the distance between centroids is not a real number, because it
 is not possible to create a space where this distance exists. Mathematically,
-the last step in the computation is to take a square root. If the distance
-between centroids cannot be represented, we get a negative number before
-taking the square root. If this happens, the function returns \code{NaN}. If
-you'd like to have access to this value, you can set \code{squared = TRUE} to
-return the squared distance between centroids. In this case, you will never
-get \code{NaN}, but you might receive negative numbers for the squared
-distance.
-}
-\description{
-Compute the distance between group centroids
+we get a negative number underneath the square root in the equation above.
+If this happens, the function returns \code{NaN}. If you'd like to have
+access to this value, you can set \code{squared = TRUE} to return the
+squared distance between centroids. In this case, you will never get
+\code{NaN}, but you might receive negative numbers in your result.
 }
 \references{
 Apostol, T.M. and Mnatsakanian, M.A. Sums of squares of distances
