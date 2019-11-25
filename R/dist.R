@@ -134,8 +134,10 @@ dist_groups <- function(d, g) {
 #' Make a distance matrix using a custom distance function
 #'
 #' @param x A matrix of observations, one per row
-#' @param distance_fcn A function of two arguments, used to compute the
-#'   distance between two rows of the data matrix.
+#' @param distance_fcn A function used to compute the distance between two
+#'   rows of the data matrix.  The two rows will be passed as the first and
+#'   second arguments to \code{distance_fcn}.
+#' @param ... Additional arguments passed to \code{distance_fcn}.
 #' @return A \code{dist} object containing the distances between rows of the
 #'   data matrix.
 #' @details We do not set the \code{call} or \code{method} attributes of the

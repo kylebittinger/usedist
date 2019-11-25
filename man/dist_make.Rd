@@ -9,8 +9,11 @@ dist_make(x, distance_fcn, ...)
 \arguments{
 \item{x}{A matrix of observations, one per row}
 
-\item{distance_fcn}{A function of two arguments, used to compute the
-distance between two rows of the data matrix.}
+\item{distance_fcn}{A function used to compute the distance between two
+rows of the data matrix.  The two rows will be passed as the first and
+second arguments to \code{distance_fcn}.}
+
+\item{...}{Additional arguments passed to \code{distance_fcn}.}
 }
 \value{
 A \code{dist} object containing the distances between rows of the
