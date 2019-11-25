@@ -136,21 +136,21 @@ dist_groups <- function(d, g) {
 #' @param x A matrix of observations, one per row
 #' @param distance_fcn A function of two arguments, used to compute the
 #'   distance between two rows of the data matrix.
-#' @param method Name for the distance method.  If provided, will be stored in
-#'   the \code{method} attribute of the result.
 #' @return A \code{dist} object containing the distances between rows of the
 #'   data matrix.
+#' @details We do not set the \code{call} or \code{method} attributes of the
+#'   \code{dist} object.
 #' @export
 #' @examples
 #' x <- matrix(sin(1:30), nrow=5)
 #' rownames(x) <- LETTERS[1:5]
 #' manhattan_distance <- function (v1, v2) sum(abs(v1 - v2))
-#' dist_make(x, manhattan_distance, "Manhattan (custom)")
-dist_make <- function (x, distance_fcn, method=NULL) {
+#' dist_make(x, manhattan_distance)
+dist_make <- function (x, distance_fcn, ...) {
   distance_from_idxs <- function (idxs) {
     i1 <- idxs[1]
     i2 <- idxs[2]
-    distance_fcn(x[i1,], x[i2,])
+    distance_fcn(x[i1,], x[i2,], ...)
   }
   size <- nrow(x)
   d <- apply(utils::combn(size, 2), 2, distance_from_idxs)
@@ -161,9 +161,6 @@ dist_make <- function (x, distance_fcn, method=NULL) {
   }
   attr(d, "Diag") <- FALSE
   attr(d, "Upper") <- FALSE
-  if (!is.null(method)) {
-    attr(d, "method") <- method
-  }
   class(d) <- "dist"
   d
 }

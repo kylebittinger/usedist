@@ -80,13 +80,24 @@ context("dist_make")
 test_that("dist_make computes custom distances", {
   x <- matrix(sin(1:30), nrow=5)
   expected_dm <- dist(x, method="manhattan")
-  # We don't set the call attribute, so remove this from the expected result
+  # We don't set the call or method attributes; remove from the expected result
   attr(expected_dm, "call") <- NULL
+  attr(expected_dm, "method") <- NULL
 
   manhattan_distance <- function (v1, v2) sum(abs(v1 - v2))
-  observed_dm <- dist_make(x, manhattan_distance, "manhattan")
+  observed_dm <- dist_make(x, manhattan_distance)
   expect_equal(observed_dm, expected_dm)
 })
+
+test_that("dist_make passes additional arguments to distance function", {
+  constant_dist <- function (v1, v2, constant = 0) constant
+  m <- rbind(a = c(1, 2, 3), b = c(1, 8, 5), c = c(0, 0, 0))
+  expect_equal(as.numeric(dist_make(m, constant_dist)), rep(0, 3))
+  expect_equal(as.numeric(dist_make(m, constant_dist, constant = 4)), rep(4, 3))
+  expect_equal(as.numeric(dist_make(m, constant_dist, 6)), rep(6, 3))
+})
+
+
 
 pts <- matrix(c(
   -1,  0,

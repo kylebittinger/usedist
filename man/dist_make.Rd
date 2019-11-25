@@ -4,16 +4,13 @@
 \alias{dist_make}
 \title{Make a distance matrix using a custom distance function}
 \usage{
-dist_make(x, distance_fcn, method = NULL)
+dist_make(x, distance_fcn, ...)
 }
 \arguments{
 \item{x}{A matrix of observations, one per row}
 
 \item{distance_fcn}{A function of two arguments, used to compute the
 distance between two rows of the data matrix.}
-
-\item{method}{Name for the distance method.  If provided, will be stored in
-the \code{method} attribute of the result.}
 }
 \value{
 A \code{dist} object containing the distances between rows of the
@@ -22,9 +19,13 @@ A \code{dist} object containing the distances between rows of the
 \description{
 Make a distance matrix using a custom distance function
 }
+\details{
+We do not set the \code{call} or \code{method} attributes of the
+  \code{dist} object.
+}
 \examples{
 x <- matrix(sin(1:30), nrow=5)
 rownames(x) <- LETTERS[1:5]
 manhattan_distance <- function (v1, v2) sum(abs(v1 - v2))
-dist_make(x, manhattan_distance, "Manhattan (custom)")
+dist_make(x, manhattan_distance)
 }
