@@ -136,6 +136,15 @@ test_that("dist_between_centroids works with logical indices", {
   expect_equal(dist_between_centroids(pts_d, group1, !group1), 3.0)
 })
 
+test_that("dist_collapse_centroids works with multiple groups", {
+  g2 <- paste("Group", rep(1:4, each=2))
+  g2_centroids <- matrix(c(0, 0, 1, -1, 3, 0, 4, -1), nrow = 4, byrow = TRUE)
+  g2_centroid_dist <- dist(g2_centroids)
+  expect_equal(
+    as.numeric(dist_collapse_centroids(pts_d, g2)),
+    as.numeric(g2_centroid_dist))
+})
+
 test_that("dist_between_centroids returns NaN if distance is non-Euclidean", {
   expect_warning(
     res <- dist_between_centroids(noneuclidean, 1:3, 4),
