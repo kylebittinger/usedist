@@ -1,3 +1,20 @@
+# usedist 0.4.0
+
+We modified the function `dist_make()` to pass along additional arguments to
+the distance function. This helps with distance functions that take extra
+parameters. We removed the `method` keyword argument from `dist_make()` because
+we found it not to be useful in practice.
+
+We added a new function, `dist_multi_centroid()`, to produce a distance matrix
+between multiple centroid positions.
+
+We fixed an error in `dist_groups()` that will pop up in future versions of R.
+In R 4.0.0, the `data.frame()` function will have a new default value,
+`stringsAsFactors = FALSE`. This update caused one column in the output
+from `dist_groups()` to change from a factor to a character vector, which broke
+one of our tests. We updated the code to deliberately make this column a
+factor. The function's behavior will be preserved when R 4.0.0 is released.
+
 # usedist 0.3.0
 
 We've made two major updates for this release.
