@@ -1,7 +1,7 @@
 ## Test environments
 * local OS X install, R 3.6.1
-* Ubuntu 16.04.6 LTS (on travis-ci), R 3.6.1
-* win-builder (devel and release)
+* Ubuntu 16.04.6 LTS (on travis-ci): oldrel, release, and devel
+* win-builder: release and devel
 
 ## R CMD check results
 
