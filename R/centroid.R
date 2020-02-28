@@ -169,3 +169,27 @@ dist_between_centroids <- function (d, idx1, idx2, squared = FALSE) {
     }
   }
 }
+
+#' Make a new distance matrix of centroid distances between multiple groups
+#' @param d A distance matrix object of class \code{dist}.
+#' @param g A factor representing the groups of items in \code{d}.
+#' @param squared If \code{TRUE}, return the squared distance between centroids.
+#' @return A distance matrix of distances between the group centroids.
+#' @export
+dist_multi_centroids <- function (d, g, squared = FALSE) {
+  group_idxs <- tapply(seq_along(g), g, c, simplify = FALSE)
+  centroid_distance_from_groups <- function (gg) {
+    g1 <- gg[1]
+    g2 <- gg[2]
+    idx1 <- group_idxs[[g1]]
+    idx2 <- group_idxs[[g2]]
+    dist_between_centroids(d, idx1, idx2, squared = squared)
+  }
+  dc <- combn(names(group_idxs), 2, centroid_distance_from_groups)
+  attr(dc, "Size") <- length(names(group_idxs))
+  attr(dc, "Labels") <- names(group_idxs)
+  attr(dc, "Diag") <- FALSE
+  attr(dc, "Upper") <- FALSE
+  class(dc) <- "dist"
+  dc
+}

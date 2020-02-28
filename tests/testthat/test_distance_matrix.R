@@ -97,8 +97,6 @@ test_that("dist_make passes additional arguments to distance function", {
   expect_equal(as.numeric(dist_make(m, constant_dist, 6)), rep(6, 3))
 })
 
-
-
 pts <- matrix(c(
   -1,  0,
    0,  1,
@@ -171,4 +169,15 @@ test_that("dist_to_centroids returns NaN if the distance is non-Euclidean", {
     "negative values")
   expect_identical(res$CentroidDistance[8], NaN)
   expect_equal(res$CentroidDistance[2], 0.8)
+})
+
+context("dist_multi_centroids")
+
+test_that("dist_multi_centroids works with multiple groups", {
+  g2 <- paste("Group", rep(1:4, each=2))
+  g2_centroids <- matrix(c(0, 0, 1, -1, 3, 0, 4, -1), nrow = 4, byrow = TRUE)
+  g2_centroid_dist <- dist(g2_centroids)
+  expect_equal(
+    as.numeric(dist_multi_centroids(pts_d, g2)),
+    as.numeric(g2_centroid_dist))
 })
