@@ -124,10 +124,10 @@ dist_groups <- function(d, g) {
     Item2 = if (is.null(dlabels)) idx2 else dlabels[idx2],
     Group1 = g[idx1],
     Group2 = g[idx2],
-    Label = factor(ifelse(
+    Label = ifelse(
       level1 == level2,
       paste("Within", level1),
-      paste("Between", level1, "and", level2))),
+      paste("Between", level1, "and", level2)),
     Distance = dist_get(d, idx1, idx2))
 }
 
