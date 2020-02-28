@@ -128,7 +128,8 @@ dist_groups <- function(d, g) {
       level1 == level2,
       paste("Within", level1),
       paste("Between", level1, "and", level2))),
-    Distance = dist_get(d, idx1, idx2))
+    Distance = dist_get(d, idx1, idx2),
+    stringsAsFactors = FALSE)
 }
 
 #' Make a distance matrix using a custom distance function
