@@ -9,7 +9,7 @@ dist_get(d, idx1, idx2)
 \arguments{
 \item{d}{A distance matrix object of class \code{dist}.}
 
-\item{idx1, idx2}{Indicies specifying the distances to extract.}
+\item{idx1, idx2}{Indices specifying the distances to extract.}
 }
 \value{
 A vector of distances.

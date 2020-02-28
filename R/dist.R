@@ -32,7 +32,7 @@ dist_setNames <- function (d, nm) {
 #' Retrieve distances from a \code{dist} object.
 #'
 #' @param d A distance matrix object of class \code{dist}.
-#' @param idx1,idx2 Indicies specifying the distances to extract.
+#' @param idx1,idx2 Indices specifying the distances to extract.
 #' @return A vector of distances.
 #' @export
 #' @examples
