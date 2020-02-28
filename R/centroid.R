@@ -185,7 +185,7 @@ dist_multi_centroids <- function (d, g, squared = FALSE) {
     idx2 <- group_idxs[[g2]]
     dist_between_centroids(d, idx1, idx2, squared = squared)
   }
-  dc <- combn(names(group_idxs), 2, centroid_distance_from_groups)
+  dc <- utils::combn(names(group_idxs), 2, centroid_distance_from_groups)
   attr(dc, "Size") <- length(names(group_idxs))
   attr(dc, "Labels") <- names(group_idxs)
   attr(dc, "Diag") <- FALSE
