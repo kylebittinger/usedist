@@ -2,8 +2,8 @@ Package: usedist
 Type: Package
 Title: Distance Matrix Utilities
 Version: 0.4.0
-Author: Kyle Bittinger
-Maintainer: Kyle Bittinger <kylebittinger@gmail.com>
+Authors@R: person("Kyle", "Bittinger", email = "kylebittinger@gmail.com",
+  role = c("aut", "cre"))
 Description: Functions to re-arrange, extract, and work with distances.
 License: GPL-3
 Encoding: UTF-8
