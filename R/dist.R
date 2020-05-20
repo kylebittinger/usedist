@@ -149,14 +149,20 @@ dist_groups <- function(d, g) {
 #' rownames(x) <- LETTERS[1:5]
 #' manhattan_distance <- function (v1, v2) sum(abs(v1 - v2))
 #' dist_make(x, manhattan_distance)
-dist_make <- function (x, distance_fcn, ...) {
+dist_make <- function (x, distance_fcn, tree = NULL) {
   distance_from_idxs <- function (idxs) {
     i1 <- idxs[1]
     i2 <- idxs[2]
-    distance_fcn(x[i1,], x[i2,], ...)
+    if(is.null(tree)) {
+      distance_fcn(x[i1,], x[i2,])
+    }
+    else {
+      distance_fcn(x[i1,], x[i2,], tree)
+    }
   }
   size <- nrow(x)
-  d <- apply(utils::combn(size, 2), 2, distance_from_idxs)
+  plan(multiprocess)
+  d <- future_apply(utils::combn(size, 2), 2, distance_from_idxs)
   attr(d, "Size") <- size
   xnames <- rownames(x)
   if (!is.null(xnames)) {
