@@ -162,7 +162,7 @@ dist_make <- function (x, distance_fcn, tree = NULL) {
   }
   size <- nrow(x)
   plan(multiprocess)
-  d <- future_apply(utils::combn(size, 2), 2, distance_from_idxs)
+  d <- future.apply::future_apply(utils::combn(size, 2), 2, distance_from_idxs)
   attr(d, "Size") <- size
   xnames <- rownames(x)
   if (!is.null(xnames)) {
