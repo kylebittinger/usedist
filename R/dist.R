@@ -29,6 +29,14 @@ dist_setNames <- function (d, nm) {
   stats::as.dist(dm)
 }
 
+
+#' Add 2 to all distances
+#' @export
+my_new_function <- function (d) {
+  d <- d + 2
+  d
+}
+
 #' Retrieve distances from a \code{dist} object.
 #'
 #' @param d A distance matrix object of class \code{dist}.
