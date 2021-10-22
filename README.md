@@ -1,8 +1,6 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-    ## Warning: package 'testthat' was built under R version 3.6.2
-
 # usedist
 
 This package provides useful functions for distance matrix objects in R.
@@ -176,8 +174,6 @@ pts <- data.frame(
 
 library(ggplot2)
 ```
-
-    ## Warning: package 'ggplot2' was built under R version 3.6.2
 
 ``` r
 ggplot(pts, aes(x=x, y=y)) +
