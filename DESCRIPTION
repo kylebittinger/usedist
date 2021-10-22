@@ -13,4 +13,5 @@ Suggests:
   testthat,
   dplyr,
   tibble,
-  tidyr
+  tidyr,
+  future.apply
