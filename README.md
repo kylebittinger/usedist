@@ -1,6 +1,8 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
+    ## Warning: package 'testthat' was built under R version 3.6.2
+
 # usedist
 
 This package provides useful functions for distance matrix objects in R.
@@ -173,6 +175,11 @@ pts <- data.frame(
   Group = rep(c("Control", "Treatment"), each=4))
 
 library(ggplot2)
+```
+
+    ## Warning: package 'ggplot2' was built under R version 3.6.2
+
+``` r
 ggplot(pts, aes(x=x, y=y)) +
   geom_point(aes(color=Group)) +
   geom_text(aes(label=Item), hjust=1.5) +
@@ -308,6 +315,27 @@ to convert from long format and use a custom distance function, you can
 combine `pivot_to_numeric_matrix()` with `dist_make()`:
 
 ``` r
+dist_make(data_matrix, rms_distance)
+```
+
+    ##          A        B
+    ## B 6.137318         
+    ## C 6.976150 9.036961
+
+## Parallelization
+
+Distance calculations can get computationally expensive with large
+sample sizes. With the installation of future.apply package, you cna
+compute the distances in parallel to save time.
+
+``` r
+library(future.apply)
+```
+
+    ## Loading required package: future
+
+``` r
+future::plan(future::multisession)
 dist_make(data_matrix, rms_distance)
 ```
 
