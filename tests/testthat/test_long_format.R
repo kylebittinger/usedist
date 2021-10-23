@@ -23,7 +23,7 @@ data_wide_char <- matrix(
   byrow = TRUE, nrow=3,
   dimnames = list(c("A", "B", "C"), paste0("F", 1:8)))
 
-test_that("Data frame in long format converted to numeric matrix", {
+test_that("pivot_to_numeric_matrix works", {
   expect_equal(
     pivot_to_numeric_matrix(data_long, row_id, col_id, val_num),
     data_wide)
