@@ -46,6 +46,7 @@ pivot_to_matrix <- function (data, rows_from, cols_from, values_from, fill = 0) 
 #'   Deprecated; use \code{pivot_to_matrix} instead.
 #' @export
 pivot_to_numeric_matrix <- function (data, obs_col, feature_col, value_col) {
+  warning("Deprecated - please use pivot_to_matrix() instead.")
   pivot_to_matrix(
     data, {{ obs_col }}, {{ feature_col }}, {{ value_col }}, fill = 0)
 }
