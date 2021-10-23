@@ -70,8 +70,37 @@ pivot_to_numeric_matrix <- function (data, obs_col, feature_col, value_col) {
   as.matrix(as.data.frame(data_wide))
 }
 
+check_pkg_functions <- function (...) {
+  to_check <- list(...)
+  warnings <- vapply(
+    to_check, function (x) check_pkg_function(x[1], x[2]), FUN.VALUE = "a")
+  warnings <- unique(warnings[!is.na(warnings)])
+  if (length(warnings) > 0) {
+    msg <- paste(
+      "The following packages or functions are not available:",
+      warnings, sep = " ", collapse = " ")
+    stop(msg, call. = FALSE)
+  }
+}
+
+check_pkg_function <- function (pkg, fcn) {
+  pkg_is_installed <- requireNamespace(pkg, quietly = TRUE)
+  if (!pkg_is_installed) {
+    return(paste("Package", pkg, "is not installed."))
+  }
+  fcn_is_available <- exists(fcn, where=asNamespace(pkg), mode="function")
+  if (!fcn_is_available) {
+    return(paste(
+      "Package", pkg, "is installed but function", fcn, "is not available."))
+  }
+  NA_character_
+}
+
 pivot_to_matrix <- function (data, rows_from, cols_from, values_from, fill = 0) {
-  check_tidyverse()
+  check_pkg_functions(
+    c("rlang", "as_name"), c("rlang", "ensym"), c("tidyr", "pivot_wider"),
+    c("tibble", "column_to_rownames"))
+
   values_fill <- list(fill)
   names(values_fill) <- rlang::as_name(rlang::ensym(values_from))
   data_wide <- tidyr::pivot_wider(
