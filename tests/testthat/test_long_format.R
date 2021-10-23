@@ -40,3 +40,27 @@ test_that("pivot_to_matrix works with numeric values", {
     pivot_to_matrix(data_long, row_id, col_id, val_num),
     data_wide)
 })
+
+test_that("error_message_for_pkg_function works for missing package", {
+  expect_equal(
+    error_message_for_pkg_function(c("notinstalled", "notafunction")),
+    "Package notinstalled is not installed.")
+})
+
+test_that("error_message_for_pkg_function works for missing function", {
+  expect_equal(
+    error_message_for_pkg_function(c("stats", "notafunction")),
+    "Package stats is installed but function notafunction is not available.")
+})
+
+test_that("error_message_for_pkg_function works for available functions", {
+  expect_equal(
+    error_message_for_pkg_function(c("stats", "lm")),
+    NA_character_)
+})
+
+test_that("check_pkg_functions stops on missing function", {
+  expect_error(
+    check_pkg_functions(c("stats", "notafunction")),
+    "The following packages or functions are not available: ")
+})
