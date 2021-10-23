@@ -69,3 +69,18 @@ pivot_to_numeric_matrix <- function (data, obs_col, feature_col, value_col) {
   data_wide <- tibble::column_to_rownames(data_wide, dplyr::as_label(obs_col))
   as.matrix(as.data.frame(data_wide))
 }
+
+pivot_to_matrix <- function (data, rows_from, cols_from, values_from, fill = 0) {
+  check_tidyverse()
+  values_fill <- list(fill)
+  names(values_fill) <- rlang::as_name(rlang::ensym(values_from))
+  data_wide <- tidyr::pivot_wider(
+    data,
+    id_cols = {{ rows_from }},
+    names_from = {{ cols_from }},
+    values_from = {{ values_from }},
+    values_fill = values_fill)
+  data_wide <- tibble::column_to_rownames(
+    data_wide, rlang::as_name(rlang::ensym(rows_from)))
+  as.matrix(as.data.frame(data_wide))
+}
