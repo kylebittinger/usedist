@@ -261,34 +261,33 @@ frame gives the row label for the matrix, another indicates the column
 label, and a third provides the value. To get a real data matrix, we
 have to “pivot” the data frame and convert to matrix form. Because this
 is such a common operation, `usedist` includes a convenience function,
-`pivot_to_numeric_matrix`.
+`pivot_to_matrix()`.
 
 Here is an example of data in long format:
 
 ``` r
 data_long <- data.frame(
-  row_label = c("A", "A", "A", "B", "B", "C", "C"),
-  column_label = c("x", "y", "z", "x", "y", "y", "z"),
-  matrix_value = rpois(7, 12))
+  row_id = c("A", "A", "A", "B", "B", "C", "C"),
+  column_id = c("x", "y", "z", "x", "y", "y", "z"),
+  value = rpois(7, 12))
 data_long
 ```
 
-    ##   row_label column_label matrix_value
-    ## 1         A            x           11
-    ## 2         A            y           10
-    ## 3         A            z           10
-    ## 4         B            x            9
-    ## 5         B            y            7
-    ## 6         C            y           15
-    ## 7         C            z           10
+    ##   row_id column_id value
+    ## 1      A         x    11
+    ## 2      A         y    10
+    ## 3      A         z    10
+    ## 4      B         x     9
+    ## 5      B         y     7
+    ## 6      C         y    15
+    ## 7      C         z    10
 
 The data table has no value for row “B” and column “z”. By convention, a
 value of 0 is filled in for missing combinations when we convert to
 matrix format. Here is how we convert:
 
 ``` r
-data_matrix <- pivot_to_numeric_matrix(
-  data_long, row_label, column_label, matrix_value)
+data_matrix <- pivot_to_matrix(data_long, row_id, column_id, value)
 data_matrix
 ```
 
@@ -298,14 +297,14 @@ data_matrix
     ## C  0 15 10
 
 Note that we provide bare column names in the call to
-`pivot_to_numeric_matrix()`. This function requires some extra packages
-to be installed. They are listed as suggestions for `usedist`. If the
+`pivot_to_matrix()`. This function requires some extra packages to be
+installed. They are listed as suggestions for `usedist`. If the
 additional packages are not installed on your system, you’ll get an
 error message with the missing packages listed.
 
 The matrix format is what we need for distance calculations. If you want
 to convert from long format and use a custom distance function, you can
-combine `pivot_to_numeric_matrix()` with `dist_make()`:
+combine `pivot_to_matrix()` with `dist_make()`:
 
 ``` r
 dist_make(data_matrix, rms_distance)
