@@ -1,10 +1,10 @@
 context("pivot_to_numeric_matrix")
 
 data_long <- data.frame(
-  Observation = rep(c("A", "B", "C"), each = 5),
-  Feature = paste0("F", c(1:5, 2:6, 4:8)),
-  Val = 1:15,
-  Val2 = letters[1:15],
+  row_id = rep(c("A", "B", "C"), each = 5),
+  col_id = paste0("F", c(1:5, 2:6, 4:8)),
+  val_num = 1:15,
+  val_char = letters[1:15],
   stringsAsFactors = FALSE)
 
 data_wide <- matrix(
@@ -25,18 +25,18 @@ data_wide_char <- matrix(
 
 test_that("Data frame in long format converted to numeric matrix", {
   expect_equal(
-    pivot_to_numeric_matrix(data_long, Observation, Feature, Val),
+    pivot_to_numeric_matrix(data_long, row_id, col_id, val_num),
     data_wide)
 })
 
 test_that("pivot_to_matrix works with character values", {
   expect_equal(
-    pivot_to_matrix(data_long, Observation, Feature, Val2, fill = ""),
+    pivot_to_matrix(data_long, row_id, col_id, val_char, fill = ""),
     data_wide_char)
 })
 
 test_that("pivot_to_matrix works with numeric values", {
   expect_equal(
-    pivot_to_matrix(data_long, Observation, Feature, Val),
+    pivot_to_matrix(data_long, row_id, col_id, val_num),
     data_wide)
 })
