@@ -3,7 +3,6 @@
 \docType{package}
 \name{usedist}
 \alias{usedist}
-\alias{usedist-package}
 \title{usedist: a package for working with distance matrices in R}
 \description{
 In usedist, we provide a number of functions to help with distance matrix
