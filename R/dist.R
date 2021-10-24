@@ -156,7 +156,12 @@ dist_make <- function (x, distance_fcn, ...) {
     distance_fcn(x[i1,], x[i2,], ...)
   }
   size <- nrow(x)
-  d <- apply(utils::combn(size, 2), 2, distance_from_idxs)
+  ##future::plan(future::multicore) should we assume the users will do this on their end?
+  if (is.element("future.apply", loadedNamespaces())) {
+    d <- future.apply::future_apply(utils::combn(size, 2), 2, distance_from_idxs)
+  } else {
+    d <- apply(utils::combn(size, 2), 2, distance_from_idxs)
+  }
   attr(d, "Size") <- size
   xnames <- rownames(x)
   if (!is.null(xnames)) {
