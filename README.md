@@ -282,7 +282,7 @@ data_long
     ## 6      C         y    15
     ## 7      C         z    10
 
-The data table has no value for row “B” and column “z”. By convention, a
+The data table has no value for row “B” and column “z”. By default, a
 value of 0 is filled in for missing combinations when we convert to
 matrix format. Here is how we convert:
 
