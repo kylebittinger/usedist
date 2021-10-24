@@ -13,4 +13,5 @@ Suggests:
   testthat,
   tibble,
   tidyr (>= 1.0.0),
-  rlang
+  rlang,
+  future.apply

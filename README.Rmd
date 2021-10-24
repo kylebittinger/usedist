@@ -224,3 +224,15 @@ convert from long format and use a custom distance function, you can combine
 ```{r}
 dist_make(data_matrix, rms_distance)
 ```
+
+## Parallelization
+
+Distance calculations can get computationally expensive with large sample sizes.
+With the installation of future.apply package, you cna compute the distances in
+parallel to save time.
+
+```{r message=F, warning=F}
+library(future.apply)
+future::plan(future::multisession)
+dist_make(data_matrix, rms_distance)
+```
