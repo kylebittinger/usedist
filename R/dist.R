@@ -80,6 +80,12 @@ dist_get <- function (d, idx1, idx2) {
 #' dist_subset(dm4, c("A", "B", "C"))
 #' dist_subset(dm4, c("D", "C", "B", "A"))
 dist_subset <- function (d, idx) {
+  new_idx <- suppressWarnings(ifelse(!is.na(as.numeric(idx)), colnames(as.matrix(d))[idx], idx))
+
+  if(! all(intersect(colnames(as.matrix(d)), new_idx) == new_idx)) {
+    message(setdiff(new_idx, colnames(as.matrix(d))))
+  }
+
   stats::as.dist(as.matrix(d)[idx, idx])
 }
 

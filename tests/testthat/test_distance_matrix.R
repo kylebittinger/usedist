@@ -66,6 +66,10 @@ test_that('dist_subset works with named vectors', {
   expect_equal(res, dm_124)
 })
 
+test_that('dist_subset provides informative errors', {
+  expect_error(expect_message(dist_subset(dm, c("a", "b", "d", "DNE")), "DNE"))
+})
+
 context("dist_groups")
 
 test_that("dist_groups labels groups correctly", {
