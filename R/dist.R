@@ -80,7 +80,18 @@ dist_get <- function (d, idx1, idx2) {
 #' dist_subset(dm4, c("A", "B", "C"))
 #' dist_subset(dm4, c("D", "C", "B", "A"))
 dist_subset <- function (d, idx) {
-  stats::as.dist(as.matrix(d)[idx, idx])
+  m <- as.matrix(d)
+  l <- length(colnames(m))
+
+  if(is.logical(idx) & length(idx) > l) {
+    message("Logical vector too long for given distance matrix")
+  } else if (is.numeric(idx) & (any(idx < 0) | any(idx >= l + 1))) {
+    message(paste("Numeric vector inputs out of bounds: ", paste(idx[(idx < 0) | (idx >= l)], collapse = ", ")))
+  } else if (any(!(idx %in% colnames(m)))) {
+    message(paste("Character vector inputs don't match matrix column names: ", paste(idx[!(idx %in% colnames(m))], collapse = ", ")))
+  }
+
+  stats::as.dist(m[idx, idx])
 }
 
 #' Create a data frame of distances between groups of items.
