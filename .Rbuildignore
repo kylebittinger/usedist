@@ -4,4 +4,3 @@
 ^\.travis\.yml$
 ^cran-comments\.md$
 ^CRAN-RELEASE$
-^\.github$
