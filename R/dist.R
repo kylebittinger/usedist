@@ -80,7 +80,7 @@ dist_get <- function (d, idx1, idx2) {
 #' dist_subset(dm4, c("A", "B", "C"))
 #' dist_subset(dm4, c("D", "C", "B", "A"))
 dist_subset <- function (d, idx) {
-  stats::as.dist(m[idx, idx])
+  stats::as.dist(as.matrix(d)[idx, idx])
 }
 
 #' Create a data frame of distances between groups of items.
