@@ -9,6 +9,10 @@
 #' @param obs_col,feature_col,value_col The same as \code{rows_from},
 #'   \code{cols_from}, and \code{values_from}, respectively.
 #'
+#' @importFrom tidyr pivot_wider
+#' @importFrom tibble column_to_rownames
+#' @importFrom rlang as_name ensym
+#'
 #' @details
 #' The parameters \code{rows_from}, \code{cols_from}, and \code{values_from}
 #' should be provided as bare column names.
