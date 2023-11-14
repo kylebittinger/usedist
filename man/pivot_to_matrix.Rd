@@ -37,10 +37,10 @@ generate an error, with a message to install the appropriate packages.
 }
 \section{Functions}{
 \itemize{
-\item \code{pivot_to_numeric_matrix}: Specialized version for numeric values.
+\item \code{pivot_to_numeric_matrix()}: Specialized version for numeric values.
 Deprecated; use \code{pivot_to_matrix} instead.
-}}
 
+}}
 \examples{
 longdata <- data.frame(
   sample_id = paste0("Sample", c(1, 1, 1, 2, 2, 3, 3)),

@@ -1,12 +1,16 @@
 
-<!-- README.md is generated from README.Rmd. Please edit that file -->
+<!-- README.md is generated from README.Rmd. Please edit README.Rmd -->
 
 # usedist
 
 This package provides useful functions for distance matrix objects in R.
 
-[![Travis-CI Build
-Status](https://travis-ci.org/kylebittinger/usedist.svg?branch=master)](https://travis-ci.org/kylebittinger/usedist)
+<!-- Badges start -->
+
+[![R-CMD-check](https://github.com/kylebittinger/usedist/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/kylebittinger/usedist/actions/workflows/R-CMD-check.yaml)
+[![Codecov test
+coverage](https://codecov.io/gh/kylebittinger/usedist/branch/master/graph/badge.svg)](https://app.codecov.io/gh/kylebittinger/usedist?branch=master)
+<!-- Badges end -->
 
 ## Installation
 
@@ -173,9 +177,6 @@ pts <- data.frame(
   Group = rep(c("Control", "Treatment"), each=4))
 
 library(ggplot2)
-```
-
-``` r
 ggplot(pts, aes(x=x, y=y)) +
   geom_point(aes(color=Group)) +
   geom_text(aes(label=Item), hjust=1.5) +
@@ -325,11 +326,6 @@ compute the distances in parallel to save time.
 
 ``` r
 library(future.apply)
-```
-
-    ## Loading required package: future
-
-``` r
 future::plan(future::multisession)
 dist_make(data_matrix, rms_distance)
 ```
