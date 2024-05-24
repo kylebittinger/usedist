@@ -1,21 +1,9 @@
-#' usedist: a package for working with distance matrices in R
-#'
-#' In usedist, we provide a number of functions to help with distance matrix
-#' objects, such as those produced by the \code{dist} function.  Some functions
-#' are geared towards making or altering distance matrix objects.  Others
-#' relate to groups of items in the distance matrix. They provide access to
-#' within- or between-group distances, or use these distances to infer the
-#' distance to group centroids.
-#'
-#' @docType package
-#' @name usedist
-NULL
-
 #' Set the names/labels of a \code{dist} object.
 #'
 #' @param d A distance matrix object of class \code{dist}.
 #' @param nm New labels for the rows/columns.
 #' @return A distance matrix with new row/column labels.
+#' @importFrom stats as.dist
 #' @export
 #' @examples
 #' m4 <- matrix(1:16, nrow=4, dimnames=list(LETTERS[1:4]))
@@ -26,7 +14,7 @@ dist_setNames <- function (d, nm) {
   # if nm does not contain the same number of elements as d
   dm <- as.matrix(d)
   dimnames(dm) <- list(nm, nm)
-  stats::as.dist(dm)
+  as.dist(dm)
 }
 
 #' Retrieve distances from a \code{dist} object.
@@ -34,6 +22,7 @@ dist_setNames <- function (d, nm) {
 #' @param d A distance matrix object of class \code{dist}.
 #' @param idx1,idx2 Indices specifying the distances to extract.
 #' @return A vector of distances.
+#' @importFrom stats as.dist
 #' @export
 #' @examples
 #' m4 <- matrix(1:16, nrow=4, dimnames=list(LETTERS[1:4]))
@@ -42,7 +31,7 @@ dist_setNames <- function (d, nm) {
 #' dist_get(dm4, "A", c("A", "B", "C", "D"))
 #' dist_get(dm4, c("A", "B", "C"), c("B", "D", "B"))
 dist_get <- function (d, idx1, idx2) {
-  d <- stats::as.dist(d)
+  d <- as.dist(d)
   if (is.character(idx1)) {
     idx1 <- match(idx1, attr(d, "Labels"))
   }
@@ -73,6 +62,7 @@ dist_get <- function (d, idx1, idx2) {
 #' @param d A distance matrix object of class \code{dist}.
 #' @param idx Indices specifying the subset of distances to extract.
 #' @return A distance matrix.
+#' @importFrom stats as.dist
 #' @export
 #' @examples
 #' m4 <- matrix(1:16, nrow=4, dimnames=list(LETTERS[1:4]))
@@ -80,7 +70,7 @@ dist_get <- function (d, idx1, idx2) {
 #' dist_subset(dm4, c("A", "B", "C"))
 #' dist_subset(dm4, c("D", "C", "B", "A"))
 dist_subset <- function (d, idx) {
-  stats::as.dist(as.matrix(d)[idx, idx])
+  as.dist(as.matrix(d)[idx, idx])
 }
 
 #' Create a data frame of distances between groups of items.
@@ -93,6 +83,8 @@ dist_subset <- function (d, idx) {
 #'   \item{Group1, Group2}{The groups to which the items belong.}
 #'   \item{Label}{A convenient label for plotting or comparison.}
 #'   \item{Distance}{The distance between Item1 and Item2.}}
+#' @importFrom stats as.dist
+#' @importFrom utils combn
 #' @export
 #' @examples
 #' m4 <- matrix(1:16, nrow=4, dimnames=list(LETTERS[1:4]))
@@ -100,7 +92,7 @@ dist_subset <- function (d, idx) {
 #' g4 <- rep(c("Control", "Treatment"), each=2)
 #' dist_groups(dm4, g4)
 dist_groups <- function(d, g) {
-  d <- stats::as.dist(d)
+  d <- as.dist(d)
   g <- as.factor(g)
   dsize <- attr(d, "Size")
   if (length(g) != dsize) {
@@ -109,7 +101,7 @@ dist_groups <- function(d, g) {
       "dist object (d)")
   }
   dlabels <- attr(d, "Labels")
-  idxs <- utils::combn(dsize, 2)
+  idxs <- combn(dsize, 2)
   idx1 <- idxs[1,]
   idx2 <- idxs[2,]
 
@@ -143,6 +135,8 @@ dist_groups <- function(d, g) {
 #'   data matrix.
 #' @details We do not set the \code{call} or \code{method} attributes of the
 #'   \code{dist} object.
+#' @importFrom future.apply future_apply
+#' @importFrom utils combn
 #' @export
 #' @examples
 #' x <- matrix(sin(1:30), nrow=5)
@@ -158,9 +152,9 @@ dist_make <- function (x, distance_fcn, ...) {
   size <- nrow(x)
   ##future::plan(future::multicore) should we assume the users will do this on their end?
   if (is.element("future.apply", loadedNamespaces())) {
-    d <- future.apply::future_apply(utils::combn(size, 2), 2, distance_from_idxs)
+    d <- future_apply(combn(size, 2), 2, distance_from_idxs)
   } else {
-    d <- apply(utils::combn(size, 2), 2, distance_from_idxs)
+    d <- apply(combn(size, 2), 2, distance_from_idxs)
   }
   attr(d, "Size") <- size
   xnames <- rownames(x)

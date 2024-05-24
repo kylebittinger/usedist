@@ -1,6 +1,14 @@
 
 <!-- README.md is generated from README.Rmd. Please edit README.Rmd -->
 
+    ## Warning: package 'rlang' was built under R version 4.3.3
+
+    ## Warning: package 'tibble' was built under R version 4.3.3
+
+    ## Warning: package 'tidyr' was built under R version 4.3.3
+
+    ## Warning: package 'testthat' was built under R version 4.3.3
+
 # usedist
 
 This package provides useful functions for distance matrix objects in R.
@@ -8,8 +16,6 @@ This package provides useful functions for distance matrix objects in R.
 <!-- Badges start -->
 
 [![R-CMD-check](https://github.com/kylebittinger/usedist/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/kylebittinger/usedist/actions/workflows/R-CMD-check.yaml)
-[![Codecov test
-coverage](https://codecov.io/gh/kylebittinger/usedist/branch/master/graph/badge.svg)](https://app.codecov.io/gh/kylebittinger/usedist?branch=master)
 <!-- Badges end -->
 
 ## Installation
@@ -177,6 +183,11 @@ pts <- data.frame(
   Group = rep(c("Control", "Treatment"), each=4))
 
 library(ggplot2)
+```
+
+    ## Warning: package 'ggplot2' was built under R version 4.3.3
+
+``` r
 ggplot(pts, aes(x=x, y=y)) +
   geom_point(aes(color=Group)) +
   geom_text(aes(label=Item), hjust=1.5) +
@@ -321,7 +332,7 @@ dist_make(data_matrix, rms_distance)
 ## Parallelization
 
 Distance calculations can get computationally expensive with large
-sample sizes. With the installation of future.apply package, you cna
+sample sizes. With the installation of future.apply package, you can
 compute the distances in parallel to save time.
 
 ``` r

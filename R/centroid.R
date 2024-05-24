@@ -28,9 +28,11 @@
 #' \code{CentroidDistance} is set to \code{NaN}.  See the documentation for
 #' \code{\link{dist_between_centroids}} for further details.
 #'
+#' @importFrom stats as.dist
+#'
 #' @export
 dist_to_centroids <- function (d, g, squared = FALSE) {
-  d <- stats::as.dist(d)
+  d <- as.dist(d)
   d2 <- d ** 2
   items <- attr(d, "Labels")
   # Use numeric index for items if the distance matrix has no labels
@@ -175,6 +177,9 @@ dist_between_centroids <- function (d, idx1, idx2, squared = FALSE) {
 #' @param g A factor representing the groups of items in \code{d}.
 #' @param squared If \code{TRUE}, return the squared distance between centroids.
 #' @return A distance matrix of distances between the group centroids.
+#' 
+#' @importFrom utils combn
+#' 
 #' @export
 dist_multi_centroids <- function (d, g, squared = FALSE) {
   group_idxs <- tapply(seq_along(g), g, c, simplify = FALSE)
@@ -185,7 +190,7 @@ dist_multi_centroids <- function (d, g, squared = FALSE) {
     idx2 <- group_idxs[[g2]]
     dist_between_centroids(d, idx1, idx2, squared = squared)
   }
-  dc <- utils::combn(names(group_idxs), 2, centroid_distance_from_groups)
+  dc <- combn(names(group_idxs), 2, centroid_distance_from_groups)
   attr(dc, "Size") <- length(names(group_idxs))
   attr(dc, "Labels") <- names(group_idxs)
   attr(dc, "Diag") <- FALSE
