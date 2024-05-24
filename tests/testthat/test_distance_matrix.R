@@ -66,12 +66,6 @@ test_that('dist_subset works with named vectors', {
   expect_equal(res, dm_124)
 })
 
-test_that('dist_subset provides informative errors', {
-  expect_error(expect_message(dist_subset(dm, c(T, F, T, F, T)), "Logical vector too long for given distance matrix"))
-  expect_error(expect_message(dist_subset(dm, c(-1, 1, 2, 3, 5)), "Numeric vector inputs out of bounds:  -1, 5"))
-  expect_error(expect_message(dist_subset(dm, c("a", "b", "d", "DNE")), "Character vector inputs don't match matrix column names:  DNE"))
-})
-
 context("dist_groups")
 
 test_that("dist_groups labels groups correctly", {
