@@ -3,7 +3,6 @@
 #' @param d A distance matrix object of class \code{dist}.
 #' @param nm New labels for the rows/columns.
 #' @return A distance matrix with new row/column labels.
-#' @importFrom stats as.dist
 #' @export
 #' @examples
 #' m4 <- matrix(1:16, nrow=4, dimnames=list(LETTERS[1:4]))
@@ -14,7 +13,7 @@ dist_setNames <- function (d, nm) {
   # if nm does not contain the same number of elements as d
   dm <- as.matrix(d)
   dimnames(dm) <- list(nm, nm)
-  as.dist(dm)
+  stats::as.dist(dm)
 }
 
 #' Retrieve distances from a \code{dist} object.
@@ -22,7 +21,6 @@ dist_setNames <- function (d, nm) {
 #' @param d A distance matrix object of class \code{dist}.
 #' @param idx1,idx2 Indices specifying the distances to extract.
 #' @return A vector of distances.
-#' @importFrom stats as.dist
 #' @export
 #' @examples
 #' m4 <- matrix(1:16, nrow=4, dimnames=list(LETTERS[1:4]))
@@ -31,7 +29,7 @@ dist_setNames <- function (d, nm) {
 #' dist_get(dm4, "A", c("A", "B", "C", "D"))
 #' dist_get(dm4, c("A", "B", "C"), c("B", "D", "B"))
 dist_get <- function (d, idx1, idx2) {
-  d <- as.dist(d)
+  d <- stats::as.dist(d)
   if (is.character(idx1)) {
     idx1 <- match(idx1, attr(d, "Labels"))
   }
@@ -62,7 +60,6 @@ dist_get <- function (d, idx1, idx2) {
 #' @param d A distance matrix object of class \code{dist}.
 #' @param idx Indices specifying the subset of distances to extract.
 #' @return A distance matrix.
-#' @importFrom stats as.dist
 #' @export
 #' @examples
 #' m4 <- matrix(1:16, nrow=4, dimnames=list(LETTERS[1:4]))
@@ -70,7 +67,7 @@ dist_get <- function (d, idx1, idx2) {
 #' dist_subset(dm4, c("A", "B", "C"))
 #' dist_subset(dm4, c("D", "C", "B", "A"))
 dist_subset <- function (d, idx) {
-  as.dist(as.matrix(d)[idx, idx])
+  stats::as.dist(as.matrix(d)[idx, idx])
 }
 
 #' Create a data frame of distances between groups of items.
@@ -83,8 +80,6 @@ dist_subset <- function (d, idx) {
 #'   \item{Group1, Group2}{The groups to which the items belong.}
 #'   \item{Label}{A convenient label for plotting or comparison.}
 #'   \item{Distance}{The distance between Item1 and Item2.}}
-#' @importFrom stats as.dist
-#' @importFrom utils combn
 #' @export
 #' @examples
 #' m4 <- matrix(1:16, nrow=4, dimnames=list(LETTERS[1:4]))
@@ -92,7 +87,7 @@ dist_subset <- function (d, idx) {
 #' g4 <- rep(c("Control", "Treatment"), each=2)
 #' dist_groups(dm4, g4)
 dist_groups <- function(d, g) {
-  d <- as.dist(d)
+  d <- stats::as.dist(d)
   g <- as.factor(g)
   dsize <- attr(d, "Size")
   if (length(g) != dsize) {
@@ -101,7 +96,7 @@ dist_groups <- function(d, g) {
       "dist object (d)")
   }
   dlabels <- attr(d, "Labels")
-  idxs <- combn(dsize, 2)
+  idxs <- utils::combn(dsize, 2)
   idx1 <- idxs[1,]
   idx2 <- idxs[2,]
 
@@ -135,8 +130,6 @@ dist_groups <- function(d, g) {
 #'   data matrix.
 #' @details We do not set the \code{call} or \code{method} attributes of the
 #'   \code{dist} object.
-#' @importFrom future.apply future_apply
-#' @importFrom utils combn
 #' @export
 #' @examples
 #' x <- matrix(sin(1:30), nrow=5)
@@ -152,9 +145,9 @@ dist_make <- function (x, distance_fcn, ...) {
   size <- nrow(x)
   ##future::plan(future::multicore) should we assume the users will do this on their end?
   if (is.element("future.apply", loadedNamespaces())) {
-    d <- future_apply(combn(size, 2), 2, distance_from_idxs)
+    d <- future.apply::future_apply(utils::combn(size, 2), 2, distance_from_idxs)
   } else {
-    d <- apply(combn(size, 2), 2, distance_from_idxs)
+    d <- apply(utils::combn(size, 2), 2, distance_from_idxs)
   }
   attr(d, "Size") <- size
   xnames <- rownames(x)

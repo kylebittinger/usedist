@@ -9,11 +9,10 @@ License: GPL-3
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.3.1
-Depends:
+Suggests:
   future.apply,
   rlang,
   tibble,
-  tidyr (>= 1.0.0)
-Suggests:
+  tidyr (>= 1.0.0),
   testthat,
   ggplot2

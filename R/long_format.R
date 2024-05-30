@@ -9,10 +9,6 @@
 #' @param obs_col,feature_col,value_col The same as \code{rows_from},
 #'   \code{cols_from}, and \code{values_from}, respectively.
 #'
-#' @importFrom tidyr pivot_wider
-#' @importFrom tibble column_to_rownames
-#' @importFrom rlang as_name ensym
-#'
 #' @details
 #' The parameters \code{rows_from}, \code{cols_from}, and \code{values_from}
 #' should be provided as bare column names.
@@ -20,10 +16,6 @@
 #' This function requires the packages \code{tidyr}, \code{rlang}, and
 #' \code{tibble} to be installed. If they are not installed, the function will
 #' generate an error, with a message to install the appropriate packages.
-#'
-#' @importFrom rlang as_name ensym
-#' @importFrom tidyr pivot_wider
-#' @importFrom tibble column_to_rownames
 #'
 #' @export
 #' @examples
@@ -38,15 +30,15 @@ pivot_to_matrix <- function (data, rows_from, cols_from, values_from, fill = 0) 
     c("tibble", "column_to_rownames"))
 
   values_fill <- list(fill)
-  names(values_fill) <- as_name(ensym(values_from))
-  data_wide <- pivot_wider(
+  names(values_fill) <- rlang::as_name(ensym(values_from))
+  data_wide <- tidyr::pivot_wider(
     data,
     id_cols = {{ rows_from }},
     names_from = {{ cols_from }},
     values_from = {{ values_from }},
     values_fill = values_fill)
-  data_wide <- column_to_rownames(
-    data_wide, as_name(ensym(rows_from)))
+  data_wide <- tibble::column_to_rownames(
+    data_wide, rlang::as_name(rlang::ensym(rows_from)))
   as.matrix(as.data.frame(data_wide))
 }
 
