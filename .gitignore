@@ -1,3 +1,7 @@
+# CUSTOM
+.Rprofile
+renv/
+
 # History files
 .Rhistory
 .Rapp.history
