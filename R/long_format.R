@@ -30,7 +30,7 @@ pivot_to_matrix <- function (data, rows_from, cols_from, values_from, fill = 0) 
     c("tibble", "column_to_rownames"))
 
   values_fill <- list(fill)
-  names(values_fill) <- rlang::as_name(ensym(values_from))
+  names(values_fill) <- rlang::as_name(rlang::ensym(values_from))
   data_wide <- tidyr::pivot_wider(
     data,
     id_cols = {{ rows_from }},
