@@ -175,6 +175,7 @@ dist_between_centroids <- function (d, idx1, idx2, squared = FALSE) {
 #' @param g A factor representing the groups of items in \code{d}.
 #' @param squared If \code{TRUE}, return the squared distance between centroids.
 #' @return A distance matrix of distances between the group centroids.
+#' 
 #' @export
 dist_multi_centroids <- function (d, g, squared = FALSE) {
   group_idxs <- tapply(seq_along(g), g, c, simplify = FALSE)

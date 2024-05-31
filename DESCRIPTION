@@ -8,11 +8,11 @@ Description: Functions to re-arrange, extract, and work with distances.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1
 Suggests:
-  testthat,
+  future.apply,
+  rlang,
   tibble,
   tidyr (>= 1.0.0),
-  rlang,
-  future.apply,
+  testthat,
   ggplot2

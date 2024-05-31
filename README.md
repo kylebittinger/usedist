@@ -8,8 +8,6 @@ This package provides useful functions for distance matrix objects in R.
 <!-- Badges start -->
 
 [![R-CMD-check](https://github.com/kylebittinger/usedist/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/kylebittinger/usedist/actions/workflows/R-CMD-check.yaml)
-[![Codecov test
-coverage](https://codecov.io/gh/kylebittinger/usedist/branch/master/graph/badge.svg)](https://app.codecov.io/gh/kylebittinger/usedist?branch=master)
 <!-- Badges end -->
 
 ## Installation
@@ -321,7 +319,7 @@ dist_make(data_matrix, rms_distance)
 ## Parallelization
 
 Distance calculations can get computationally expensive with large
-sample sizes. With the installation of future.apply package, you cna
+sample sizes. With the installation of future.apply package, you can
 compute the distances in parallel to save time.
 
 ``` r
