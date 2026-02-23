@@ -178,12 +178,29 @@ the distances within the Control group and within the Treatment group should
 all be equal to 1.
 
 ```{r}
-dist_to_centroids(pts_distances, pts$Group)
+pts_centroid_distances <- dist_to_centroids(pts_distances, pts$Group)
+pts_centroid_distances
 ```
 
 You can use the Pythagorean theorem to check that the other distances are
 correct.  The distance between point "G" and the centroid for the *Control*
 group should be sqrt(3^2^ + 1^2^) = sqrt(10) = 3.162278.
+
+If we want to visualize the distances of each point to each centroid, we can
+merge the table of centroid distances with our original data frame, `pts`. Our
+original data frame contained the group of each point in the data set. We should
+find that the points in each group have a distance of exactly 1 to their own
+group centroid, and distances in the range of 2-4 to the centroid of the
+opposite group.
+
+```{r centroid_distance_plot}
+pts_centroid_distances_toplot <- merge(pts, pts_centroid_distances, by = "Item")
+ggplot(pts_centroid_distances_toplot) +
+  geom_boxplot(aes(x = Group, y = CentroidDistance)) +
+  facet_grid(~ CentroidGroup) +
+  scale_y_continuous(limits = c(0, 4))
+```
+
 
 ## Long format data
 

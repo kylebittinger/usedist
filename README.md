@@ -1,6 +1,8 @@
 
 <!-- README.md is generated from README.Rmd. Please edit README.Rmd -->
 
+    ## Warning: package 'testthat' was built under R version 4.4.3
+
 # usedist
 
 This package provides useful functions for distance matrix objects in R.
@@ -175,6 +177,11 @@ pts <- data.frame(
   Group = rep(c("Control", "Treatment"), each=4))
 
 library(ggplot2)
+```
+
+    ## Warning: package 'ggplot2' was built under R version 4.4.3
+
+``` r
 ggplot(pts, aes(x=x, y=y)) +
   geom_point(aes(color=Group)) +
   geom_text(aes(label=Item), hjust=1.5) +
@@ -229,7 +236,8 @@ points. In our example, the distances within the Control group and
 within the Treatment group should all be equal to 1.
 
 ``` r
-dist_to_centroids(pts_distances, pts$Group)
+pts_centroid_distances <- dist_to_centroids(pts_distances, pts$Group)
+pts_centroid_distances
 ```
 
     ##    Item CentroidGroup CentroidDistance
@@ -254,6 +262,23 @@ You can use the Pythagorean theorem to check that the other distances
 are correct. The distance between point “G” and the centroid for the
 *Control* group should be sqrt(3<sup>2</sup> + 1<sup>2</sup>) = sqrt(10)
 = 3.162278.
+
+If we want to visualize the distances of each point to each centroid, we
+can merge the table of centroid distances with our original data frame,
+`pts`. Our original data frame contained the group of each point in the
+data set. We should find that the points in each group have a distance
+of exactly 1 to their own group centroid, and distances in the range of
+2-4 to the centroid of the opposite group.
+
+``` r
+pts_centroid_distances_toplot <- merge(pts, pts_centroid_distances, by = "Item")
+ggplot(pts_centroid_distances_toplot) +
+  geom_boxplot(aes(x = Group, y = CentroidDistance)) +
+  facet_grid(~ CentroidGroup) +
+  scale_y_continuous(limits = c(0, 4))
+```
+
+![](tools/readme/centroid_distance_plot-1.png)<!-- -->
 
 ## Long format data
 
