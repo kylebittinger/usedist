@@ -1,11 +1,9 @@
 
 <!-- README.md is generated from README.Rmd. Please edit README.Rmd -->
 
-    ## Warning: package 'testthat' was built under R version 4.4.3
-
 # usedist
 
-This package provides useful functions for distance matrix objects in R.
+This package provides tools to work with distance matrix objects in R.
 
 <!-- Badges start -->
 
@@ -14,7 +12,13 @@ This package provides useful functions for distance matrix objects in R.
 
 ## Installation
 
-You can install usedist from github with:
+You can install the latest release of usedist from CRAN:
+
+``` r
+install.packages("usedist")
+```
+
+Or install the development version from GitHub:
 
 ``` r
 # install.packages("devtools")
@@ -29,36 +33,34 @@ Under the hood, the `"dist"` object is stored as a simple vector. When
 it’s printed out, R knows how to make it look like a matrix. Let’s make
 a distance object representing the distances between six rows of data.
 
-Here is our data matrix, `X`:
+Here is our data matrix, `X`.
 
 ``` r
 X <- matrix(rnorm(30), nrow=6)
 rownames(X) <- c("A", "B", "C", "D", "E", "F")
 X
+#>         [,1]         [,2]       [,3]       [,4]        [,5]
+#> A  1.2629543 -0.928567035 -1.1476570  0.4356833 -0.05710677
+#> B -0.3262334 -0.294720447 -0.2894616 -1.2375384  0.50360797
+#> C  1.3297993 -0.005767173 -0.2992151 -0.2242679  1.08576936
+#> D  1.2724293  2.404653389 -0.4115108  0.3773956 -0.69095384
+#> E  0.4146414  0.763593461  0.2522234  0.1333364 -1.28459935
+#> F -1.5399500 -0.799009249 -0.8919211  0.8041895  0.04672617
 ```
 
-    ##         [,1]         [,2]       [,3]       [,4]        [,5]
-    ## A  1.2629543 -0.928567035 -1.1476570  0.4356833 -0.05710677
-    ## B -0.3262334 -0.294720447 -0.2894616 -1.2375384  0.50360797
-    ## C  1.3297993 -0.005767173 -0.2992151 -0.2242679  1.08576936
-    ## D  1.2724293  2.404653389 -0.4115108  0.3773956 -0.69095384
-    ## E  0.4146414  0.763593461  0.2522234  0.1333364 -1.28459935
-    ## F -1.5399500 -0.799009249 -0.8919211  0.8041895  0.04672617
-
 And here is our `"dist"` object, `d`, representing the distance between
-rows of `X`:
+rows of `X`.
 
 ``` r
 d <- dist(X)
 d
+#>          A        B        C        D        E
+#> B 2.603430                                    
+#> C 1.821423 2.047355                           
+#> D 3.472394 3.727228 3.056922                  
+#> E 2.672239 2.653173 2.734967 2.069155         
+#> F 2.843420 2.543180 3.369470 4.373791 3.129488
 ```
-
-    ##          A        B        C        D        E
-    ## B 2.603430                                    
-    ## C 1.821423 2.047355                           
-    ## D 3.472394 3.727228 3.056922                  
-    ## E 2.672239 2.653173 2.734967 2.069155         
-    ## F 2.843420 2.543180 3.369470 4.373791 3.129488
 
 These `"dist"` objects are great, but R does not provide a set of
 functions to work with them conveniently. That’s where the `usedist`
@@ -75,16 +77,15 @@ library(usedist)
 
 To start, we can make a new `"dist"` object, containing the distances
 between rows B, C, F, and D. Our new object contains the rows *in the
-order we specified*:
+order we specified*.
 
 ``` r
 dist_subset(d, c("B", "C", "F", "D"))
+#>          B        C        F
+#> C 2.047355                  
+#> F 2.543180 3.369470         
+#> D 3.727228 3.056922 4.373791
 ```
-
-    ##          B        C        F
-    ## C 2.047355                  
-    ## F 2.543180 3.369470         
-    ## D 3.727228 3.056922 4.373791
 
 This is especially helpful when arranging a distance matrix to match a
 data frame, for instance with the `adonis()` function in `vegan`.
@@ -99,9 +100,8 @@ another for the rows of destination.
 origin_row <- c("A", "B", "C")
 destination_row <- c("D", "E", "F")
 dist_get(d, origin_row, destination_row)
+#> [1] 3.472394 2.653173 3.369470
 ```
-
-    ## [1] 3.472394 2.653173 3.369470
 
 If rows are arranged in groups, we might like to have a data frame
 listing the distances alongside the groups for each pair of rows. The
@@ -111,30 +111,29 @@ adds in a nice label that you might use for plots.
 ``` r
 item_groups <- rep(c("Control", "Treatment"), each=3)
 dist_groups(d, item_groups)
+#>    Item1 Item2    Group1    Group2                         Label Distance
+#> 1      A     B   Control   Control                Within Control 2.603430
+#> 2      A     C   Control   Control                Within Control 1.821423
+#> 3      A     D   Control Treatment Between Control and Treatment 3.472394
+#> 4      A     E   Control Treatment Between Control and Treatment 2.672239
+#> 5      A     F   Control Treatment Between Control and Treatment 2.843420
+#> 6      B     C   Control   Control                Within Control 2.047355
+#> 7      B     D   Control Treatment Between Control and Treatment 3.727228
+#> 8      B     E   Control Treatment Between Control and Treatment 2.653173
+#> 9      B     F   Control Treatment Between Control and Treatment 2.543180
+#> 10     C     D   Control Treatment Between Control and Treatment 3.056922
+#> 11     C     E   Control Treatment Between Control and Treatment 2.734967
+#> 12     C     F   Control Treatment Between Control and Treatment 3.369470
+#> 13     D     E Treatment Treatment              Within Treatment 2.069155
+#> 14     D     F Treatment Treatment              Within Treatment 4.373791
+#> 15     E     F Treatment Treatment              Within Treatment 3.129488
 ```
-
-    ##    Item1 Item2    Group1    Group2                         Label Distance
-    ## 1      A     B   Control   Control                Within Control 2.603430
-    ## 2      A     C   Control   Control                Within Control 1.821423
-    ## 3      A     D   Control Treatment Between Control and Treatment 3.472394
-    ## 4      A     E   Control Treatment Between Control and Treatment 2.672239
-    ## 5      A     F   Control Treatment Between Control and Treatment 2.843420
-    ## 6      B     C   Control   Control                Within Control 2.047355
-    ## 7      B     D   Control Treatment Between Control and Treatment 3.727228
-    ## 8      B     E   Control Treatment Between Control and Treatment 2.653173
-    ## 9      B     F   Control Treatment Between Control and Treatment 2.543180
-    ## 10     C     D   Control Treatment Between Control and Treatment 3.056922
-    ## 11     C     E   Control Treatment Between Control and Treatment 2.734967
-    ## 12     C     F   Control Treatment Between Control and Treatment 3.369470
-    ## 13     D     E Treatment Treatment              Within Treatment 2.069155
-    ## 14     D     F Treatment Treatment              Within Treatment 4.373791
-    ## 15     E     F Treatment Treatment              Within Treatment 3.129488
 
 You might have your own distance function that you’d like to use, beyond
 the options available in `dist()` or `vegan::vegdist()`. For example,
 the RMS distance is kind of like the Euclidean distance, but you take
 the mean of the squared differences instead of the sum inside the square
-root. Let’s define the distance function:
+root. Let’s define the distance function.
 
 ``` r
 rms_distance <- function (r1, r2) {
@@ -147,14 +146,13 @@ RMS distances.
 
 ``` r
 dist_make(X, rms_distance)
+#>           A         B         C         D         E
+#> B 1.1642895                                        
+#> C 0.8145653 0.9156050                              
+#> D 1.5529017 1.6668670 1.3670972                    
+#> E 1.1950614 1.1865353 1.2231143 0.9253541          
+#> F 1.2716160 1.1373449 1.5068729 1.9560190 1.3995495
 ```
-
-    ##           A         B         C         D         E
-    ## B 1.1642895                                        
-    ## C 0.8145653 0.9156050                              
-    ## D 1.5529017 1.6668670 1.3670972                    
-    ## E 1.1950614 1.1865353 1.2231143 0.9253541          
-    ## F 1.2716160 1.1373449 1.5068729 1.9560190 1.3995495
 
 ## Centroid functions
 
@@ -177,18 +175,13 @@ pts <- data.frame(
   Group = rep(c("Control", "Treatment"), each=4))
 
 library(ggplot2)
-```
-
-    ## Warning: package 'ggplot2' was built under R version 4.4.3
-
-``` r
 ggplot(pts, aes(x=x, y=y)) +
   geom_point(aes(color=Group)) +
   geom_text(aes(label=Item), hjust=1.5) +
   coord_equal()
 ```
 
-![](tools/readme/centroid_example-1.png)<!-- -->
+<img src="man/figures/README-centroid_example-1.png" alt="" width="100%" />
 
 Our goal is to figure out distances for the group centroids using only
 the distances between points. First, we need to put the data in matrix
@@ -204,16 +197,15 @@ Now, we’ll compute the point-to-point distances with `dist()`.
 ``` r
 pts_distances <- dist(pts_matrix)
 pts_distances
+#>          A        B        C        D        E        F        G
+#> B 1.414214                                                      
+#> C 1.414214 2.000000                                             
+#> D 2.000000 1.414214 1.414214                                    
+#> E 3.000000 2.236068 2.236068 1.000000                           
+#> F 4.123106 3.000000 3.605551 2.236068 1.414214                  
+#> G 4.123106 3.605551 3.000000 2.236068 1.414214 2.000000         
+#> H 5.000000 4.123106 4.123106 3.000000 2.000000 1.414214 1.414214
 ```
-
-    ##          A        B        C        D        E        F        G
-    ## B 1.414214                                                      
-    ## C 1.414214 2.000000                                             
-    ## D 2.000000 1.414214 1.414214                                    
-    ## E 3.000000 2.236068 2.236068 1.000000                           
-    ## F 4.123106 3.000000 3.605551 2.236068 1.414214                  
-    ## G 4.123106 3.605551 3.000000 2.236068 1.414214 2.000000         
-    ## H 5.000000 4.123106 4.123106 3.000000 2.000000 1.414214 1.414214
 
 The function `dist_between_centroids()` will calculate the distance
 between the centroids of the two groups. Here, we expect to get a
@@ -222,9 +214,8 @@ distance of 3.
 ``` r
 dist_between_centroids(
   pts_distances, c("A", "B", "C", "D"), c("E", "F", "G", "H"))
+#> [1] 3
 ```
-
-    ## [1] 3
 
 The function is only using the distance matrix; it doesn’t know where
 the individual points are in space.
@@ -238,25 +229,24 @@ within the Treatment group should all be equal to 1.
 ``` r
 pts_centroid_distances <- dist_to_centroids(pts_distances, pts$Group)
 pts_centroid_distances
+#>    Item CentroidGroup CentroidDistance
+#> 1     A       Control         1.000000
+#> 2     B       Control         1.000000
+#> 3     C       Control         1.000000
+#> 4     D       Control         1.000000
+#> 5     E       Control         2.000000
+#> 6     F       Control         3.162278
+#> 7     G       Control         3.162278
+#> 8     H       Control         4.000000
+#> 9     A     Treatment         4.000000
+#> 10    B     Treatment         3.162278
+#> 11    C     Treatment         3.162278
+#> 12    D     Treatment         2.000000
+#> 13    E     Treatment         1.000000
+#> 14    F     Treatment         1.000000
+#> 15    G     Treatment         1.000000
+#> 16    H     Treatment         1.000000
 ```
-
-    ##    Item CentroidGroup CentroidDistance
-    ## 1     A       Control         1.000000
-    ## 2     B       Control         1.000000
-    ## 3     C       Control         1.000000
-    ## 4     D       Control         1.000000
-    ## 5     E       Control         2.000000
-    ## 6     F       Control         3.162278
-    ## 7     G       Control         3.162278
-    ## 8     H       Control         4.000000
-    ## 9     A     Treatment         4.000000
-    ## 10    B     Treatment         3.162278
-    ## 11    C     Treatment         3.162278
-    ## 12    D     Treatment         2.000000
-    ## 13    E     Treatment         1.000000
-    ## 14    F     Treatment         1.000000
-    ## 15    G     Treatment         1.000000
-    ## 16    H     Treatment         1.000000
 
 You can use the Pythagorean theorem to check that the other distances
 are correct. The distance between point “G” and the centroid for the
@@ -278,7 +268,7 @@ ggplot(pts_centroid_distances_toplot) +
   scale_y_continuous(limits = c(0, 4))
 ```
 
-![](tools/readme/centroid_distance_plot-1.png)<!-- -->
+<img src="man/figures/README-centroid_distance_plot-1.png" alt="" width="100%" />
 
 ## Long format data
 
@@ -298,16 +288,15 @@ data_long <- data.frame(
   column_id = c("x", "y", "z", "x", "y", "y", "z"),
   value = rpois(7, 12))
 data_long
+#>   row_id column_id value
+#> 1      A         x    11
+#> 2      A         y    10
+#> 3      A         z    10
+#> 4      B         x     9
+#> 5      B         y     7
+#> 6      C         y    15
+#> 7      C         z    10
 ```
-
-    ##   row_id column_id value
-    ## 1      A         x    11
-    ## 2      A         y    10
-    ## 3      A         z    10
-    ## 4      B         x     9
-    ## 5      B         y     7
-    ## 6      C         y    15
-    ## 7      C         z    10
 
 The data table has no value for row “B” and column “z”. By default, a
 value of 0 is filled in for missing combinations when we convert to
@@ -316,12 +305,11 @@ matrix format. Here is how we convert:
 ``` r
 data_matrix <- pivot_to_matrix(data_long, row_id, column_id, value)
 data_matrix
+#>    x  y  z
+#> A 11 10 10
+#> B  9  7  0
+#> C  0 15 10
 ```
-
-    ##    x  y  z
-    ## A 11 10 10
-    ## B  9  7  0
-    ## C  0 15 10
 
 Note that we provide bare column names in the call to
 `pivot_to_matrix()`. This function requires some extra packages to be
@@ -331,15 +319,14 @@ error message with the missing packages listed.
 
 The matrix format is what we need for distance calculations. If you want
 to convert from long format and use a custom distance function, you can
-combine `pivot_to_matrix()` with `dist_make()`:
+combine `pivot_to_matrix()` with `dist_make()`.
 
 ``` r
 dist_make(data_matrix, rms_distance)
+#>          A        B
+#> B 6.137318         
+#> C 6.976150 9.036961
 ```
-
-    ##          A        B
-    ## B 6.137318         
-    ## C 6.976150 9.036961
 
 ## Parallelization
 
@@ -351,8 +338,7 @@ compute the distances in parallel to save time.
 library(future.apply)
 future::plan(future::multisession)
 dist_make(data_matrix, rms_distance)
+#>          A        B
+#> B 6.137318         
+#> C 6.976150 9.036961
 ```
-
-    ##          A        B
-    ## B 6.137318         
-    ## C 6.976150 9.036961
