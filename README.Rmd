@@ -6,7 +6,10 @@ output: github_document
 
 ```{r, echo = FALSE}
 knitr::opts_chunk$set(
-  fig.path = "tools/readme/"
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
 )
 ```
 
