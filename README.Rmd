@@ -17,7 +17,7 @@ set.seed(0)
 
 # usedist
 
-This package provides useful functions for distance matrix objects in R.
+This package provides tools to work with distance matrix objects in R.
 
 <!-- Badges start -->
 [![R-CMD-check](https://github.com/kylebittinger/usedist/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/kylebittinger/usedist/actions/workflows/R-CMD-check.yaml)
@@ -25,7 +25,13 @@ This package provides useful functions for distance matrix objects in R.
 
 ## Installation
 
-You can install usedist from github with:
+You can install the latest release of usedist from CRAN:
+
+```{r eval=FALSE}
+install.packages("usedist")
+```
+
+Or install the development version from GitHub:
 
 ```{r eval=FALSE}
 # install.packages("devtools")
@@ -40,7 +46,7 @@ the hood, the `"dist"` object is stored as a simple vector. When it's
 printed out, R knows how to make it look like a matrix. Let's make a distance
 object representing the distances between six rows of data.
 
-Here is our data matrix, `X`:
+Here is our data matrix, `X`.
 
 ```{r}
 X <- matrix(rnorm(30), nrow=6)
@@ -49,7 +55,7 @@ X
 ```
 
 And here is our `"dist"` object, `d`, representing the distance between rows of
-`X`:
+`X`.
 
 ```{r}
 d <- dist(X)
@@ -70,7 +76,7 @@ library(usedist)
 
 To start, we can make a new `"dist"` object, containing the distances between
 rows B, C, F, and D. Our new object contains the rows *in the order we
-specified*:
+specified*.
 
 ```{r}
 dist_subset(d, c("B", "C", "F", "D"))
@@ -105,7 +111,7 @@ You might have your own distance function that you'd like to use, beyond the
 options available in `dist()` or `vegan::vegdist()`.  For example, the RMS
 distance is kind of like the Euclidean distance, but you take the mean of the
 squared differences instead of the sum inside the square root. Let's define the
-distance function:
+distance function.
 
 ```{r}
 rms_distance <- function (r1, r2) {
@@ -238,7 +244,7 @@ message with the missing packages listed.
 
 The matrix format is what we need for distance calculations. If you want to
 convert from long format and use a custom distance function, you can combine
-`pivot_to_matrix()` with `dist_make()`:
+`pivot_to_matrix()` with `dist_make()`.
 
 ```{r}
 dist_make(data_matrix, rms_distance)
