@@ -1,5 +1,3 @@
-context("dist_read/write")
-
 d <- matrix(
   c(
     0.0000, 0.6569, 0.6562, 0.5400,
@@ -23,6 +21,8 @@ d_txt <- c(
   "sD	0.54	0.6317	0.5898	0"
 )
 
+# dist_read
+
 test_that("dist_read works", {
   fp <- system.file("extdata", "distance-matrix.tsv", package = "usedist")
   observed <- dist_read(fp)
@@ -30,6 +30,8 @@ test_that("dist_read works", {
   local_edition(3)
   expect_equal(observed, d, ignore_attr = "call")
 })
+
+# dist_write
 
 test_that("dist_write works", {
   fp <- tempfile(fileext = ".tsv")
