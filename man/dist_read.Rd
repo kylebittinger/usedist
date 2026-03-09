@@ -2,7 +2,7 @@
 % Please edit documentation in R/read.R
 \name{dist_read}
 \alias{dist_read}
-\title{Read a distance matrix file.}
+\title{Read a distance matrix file}
 \usage{
 dist_read(file, ...)
 }
@@ -15,7 +15,7 @@ dist_read(file, ...)
 A dist object
 }
 \description{
-Read a distance matrix file.
+Read a distance matrix file
 }
 \details{
 Values in the dist object are taken from the lower triangle of the matrix.
