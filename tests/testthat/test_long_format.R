@@ -1,5 +1,3 @@
-context("pivot_to_numeric_matrix")
-
 data <- data.frame(
   row_id = rep(c("A", "B", "C"), each = 5),
   col_id = paste0("F", c(1:5, 2:6, 4:8)),
@@ -22,6 +20,8 @@ matrix_char <- matrix(
      "",  "",  "", "k", "l", "m", "n", "o"),
   byrow = TRUE, nrow=3,
   dimnames = list(c("A", "B", "C"), paste0("F", 1:8)))
+
+# pivot_to_numeric_matrix
 
 test_that("pivot_to_numeric_matrix works", {
   expect_equal(

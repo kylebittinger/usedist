@@ -19,7 +19,7 @@ dm_124 <- as.dist(dm_124)
 # was generated. Remove it for the tests.
 attr(dm_124, "call") <- NULL
 
-context('dist_setNames')
+# dist_setNames
 
 test_that('dist_setNames can set the labels', {
   EFGH <- LETTERS[5:8]
@@ -28,7 +28,7 @@ test_that('dist_setNames can set the labels', {
   expect_equal(class(renamed_dm), "dist")
 })
 
-context('dist_get')
+# dist_get
 
 test_that('dist_get works with named indices', {
   expect_equal(
@@ -46,7 +46,7 @@ test_that('dist_get works with numeric indices', {
 })
 
 
-context('dist_subset')
+# dist_subset
 
 test_that('dist_subset works with numeric vectors', {
   res <- dist_subset(dm, c(1, 2, 4))
@@ -66,7 +66,7 @@ test_that('dist_subset works with named vectors', {
   expect_equal(res, dm_124)
 })
 
-context("dist_groups")
+# dist_groups
 
 test_that("dist_groups labels groups correctly", {
   dg <- dist_groups(dm, c("A", "A", "B", "B"))
@@ -75,7 +75,7 @@ test_that("dist_groups labels groups correctly", {
   expect_equal(levels(dg$Label), c("Between A and B", "Within A", "Within B"))
 })
 
-context("dist_make")
+# dist_make
 
 test_that("dist_make computes custom distances", {
   x <- matrix(sin(1:30), nrow=5)
@@ -119,7 +119,7 @@ noneuclidean <- matrix(
   ncol=4, byrow=T)
 noneuclidean <- as.dist(noneuclidean)
 
-context("dist_between_centroids")
+# dist_between_centroids
 
 test_that("dist_between_centroids works on 2D Euclidean example", {
   expect_equal(dist_between_centroids(pts_d, 1:4, 5:8), 3.0)
@@ -143,7 +143,7 @@ test_that("dist_between_centroids returns NaN if distance is non-Euclidean", {
   expect_equal(dist_between_centroids(noneuclidean, 1:2, 3), sqrt(3 / 4) * 0.8)
 })
 
-context("dist_to_centroids")
+# dist_to_centroids
 
 expected_centroid_df <- expand.grid(
   Item = LETTERS[1:8],
@@ -171,7 +171,7 @@ test_that("dist_to_centroids returns NaN if the distance is non-Euclidean", {
   expect_equal(res$CentroidDistance[2], 0.8)
 })
 
-context("dist_multi_centroids")
+# dist_multi_centroids
 
 test_that("dist_multi_centroids works with multiple groups", {
   g2 <- paste("Group", rep(1:4, each=2))
